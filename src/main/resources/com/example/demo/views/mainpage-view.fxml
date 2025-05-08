@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.MainPageController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <left>
+        <VBox spacing="10" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <Button text="Botão 1"/>
+                <Button text="Botão 2"/>
+                <Button text="Botão 3"/>
+                <!-- … -->
+            </children>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <HBox spacing="5">
+                    <Button text="A"/>
+                    <Button text="B"/>
+                    <Button text="C"/>
+                </HBox>
+            </children>
+        </HBox>
+    </top>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <DatePicker fx:id="calendar"/>
+            </children>
+        </HBox>
+    </bottom>
+
+</BorderPane>
