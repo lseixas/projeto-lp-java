@@ -16,9 +16,18 @@
                 <Label text="Olá, bem vindo de volta!" style="-fx-font-size: 16;" />
                 <VBox fx:id="cpfLabelInput" spacing="10" alignment="TOP_CENTER">
                     <Label text="CPF" />
-                    <TextField fx:id="cpfTextField" onAction="#handleEnter" promptText="Digite seu cpf..." />
+                    <TextField fx:id="cpfTextField" onAction="#handleEnterPressed" promptText="Digite seu cpf..." />
                 </VBox>
-                <Button fx:id="cpfLoginButton" onAction="#handleLoginButton" text="Enter" />
+                <VBox xmlns:fx="http://javafx.com/fxml" visible="false" managed="false"
+                      spacing="10"
+                      alignment="TOP_CENTER"
+                      fx:id="passwordContainer">
+
+                    <Label text="Enter your password:" />
+                    <TextField fx:id="passwordTextField" promptText="Password" />
+
+                </VBox>
+                <Button fx:id="cpfLoginButton" onAction="#handleLoginButtonClick" text="Enter" />
             </VBox>
         </StackPane>
 

@@ -1,13 +1,10 @@
 package com.example.demo.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class LoginPageController {
@@ -15,20 +12,56 @@ public class LoginPageController {
     @FXML
     private TextField cpfTextField;
     @FXML
+    private TextField passwordTextField;
+    @FXML
     private VBox centerLoginBox;
+    @FXML
+    private VBox passwordContainer;
     @FXML
     private Button cpfLoginButton;
 
     private boolean extraLoaded = false;
 
-    public void handleEnter(){
+    //handler for enter pressed
+
+    public void handleEnterPressed(){
 
         String cpf = cpfTextField.getText();
         System.out.println("CPF inserido: " + cpf);
+        handleLoginButtonClick();
 
     }
 
-    public void handleLoginButton(){
+    //handler for button click
+
+    public void handleLoginButtonClick(){
+
+        String cpf = cpfTextField.getText();
+        if(extraLoaded){
+            String password = passwordTextField.getText();
+            logicCpfPasswordInsert();
+        }
+        else {
+            logicCpfInsert();
+        }
+    }
+
+    //logic for cpf + password insertion
+
+    public void logicCpfPasswordInsert(){
+        String cpf = cpfTextField.getText();
+        String password = passwordTextField.getText();
+
+        if (validateCpf(cpf) && validadePassword(password)){
+            System.out.println("CPF e senha válidos: " + cpf + ", " + password);
+        } else {
+            System.out.println("CPF ou senha inválidos: " + cpf + ", " + password);
+        }
+    }
+
+    //logic for first insertion
+
+    public void logicCpfInsert(){
 
         String cpf = cpfTextField.getText();
 
@@ -36,6 +69,10 @@ public class LoginPageController {
 
             System.out.println("CPF válido: " + cpf);
             addExtraInputPane();
+            extraLoaded = true;
+
+            String password = passwordTextField.getText();
+            System.out.println("Senha inserida: " + password);
 
         } else {
             System.out.println("CPF inválido: " + cpf);
@@ -43,26 +80,24 @@ public class LoginPageController {
 
     }
 
+    //visible password text field
+
+    private void addExtraInputPane() {
+        passwordContainer.setVisible(true);
+        passwordContainer.setManaged(true);
+    }
+
+
+    //field validations
+
     public boolean validateCpf(String cpf){
         String cpfRegex = "^(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})$";
         return Pattern.matches(cpfRegex, cpf);
     }
 
-    private void addExtraInputPane() {
-        if (extraLoaded) return;  // evita múltiplas inserções
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/example/demo/views/reusable/loginPage/loginPasswordBox-reusable.fxml")
-            );
-            Node passwordVBox = loader.load();
-
-            int buttonIndex = centerLoginBox.getChildren().indexOf(cpfLoginButton);
-            centerLoginBox.getChildren().add(buttonIndex, passwordVBox);
-
-            extraLoaded = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public boolean validadePassword(String password){
+        String passwordRegex = "^.{8,}$";
+        return Pattern.matches(passwordRegex, password);
     }
 
     public void Initialize(){
