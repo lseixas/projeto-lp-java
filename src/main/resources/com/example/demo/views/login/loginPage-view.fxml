@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox fx:id="rootVBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.demo.controllers.LoginPageController">
+
+    <fx:include source="../reusable/topBar/topBar-reusable.fxml" />
+
+    <VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" prefWidth="640.0" prefHeight="480.0">
+
+        <!-- Central Content (grows with window) -->
+        <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
+            <VBox fx:id="centerLoginBox" alignment="TOP_CENTER" spacing="10" maxWidth="300" maxHeight="200" style="-fx-background-color: #ff8e8e; -fx-padding: 20; -fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6;">
+                <Label text="Olá, bem vindo de volta!" style="-fx-font-size: 16;" />
+                <VBox fx:id="cpfLabelInput" spacing="10" alignment="TOP_CENTER">
+                    <Label text="CPF" />
+                    <TextField fx:id="cpfTextField" onAction="#handleEnter" promptText="Digite seu cpf..." />
+                </VBox>
+                <Button fx:id="cpfLoginButton" onAction="#handleLoginButton" text="Enter" />
+            </VBox>
+        </StackPane>
+
+    </VBox>
+
+</VBox>
