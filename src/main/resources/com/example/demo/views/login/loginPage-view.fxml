@@ -8,29 +8,29 @@
 
     <fx:include source="../reusable/topBar/topBar-reusable.fxml" />
 
-    <VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" prefWidth="640.0" prefHeight="480.0">
+    <VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" prefWidth="640.0" prefHeight="480.0" style="-fx-background-color:rgb(255, 186, 186);">
 
         <!-- Central Content (grows with window) -->
         <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
             <VBox fx:id="centerLoginBox" alignment="TOP_CENTER" spacing="10" maxWidth="300" maxHeight="200" style="-fx-background-color: #ff8e8e; -fx-padding: 20; -fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6;">
-                <Label text="Olá, bem vindo de volta!" style="-fx-font-size: 16;" />
+                <Label text="Olá, seja bem-vindo!" style="-fx-font-size: 16; -fx-font-weight: bold;" />
                 <VBox fx:id="cpfLabelInput" spacing="10" alignment="TOP_CENTER">
                     <Label text="CPF" />
-                    <TextField fx:id="cpfTextField" onAction="#handleEnterPressed" promptText="Digite seu cpf..." />
+                    <TextField fx:id="cpfTextField" onAction="#handleEnterPressed" promptText="999.999.999-99"/>
                 </VBox>
                 <VBox xmlns:fx="http://javafx.com/fxml" visible="false" managed="false"
                       spacing="10"
                       alignment="TOP_CENTER"
                       fx:id="passwordContainer">
 
-                    <Label text="Enter your password:" />
-                    <TextField fx:id="passwordTextField" promptText="Password" />
+                    <Label text="Digite sua senha:" />
+                    <TextField fx:id="passwordTextField" promptText="Senha" />
 
                 </VBox>
-                <Button fx:id="cpfLoginButton" onAction="#handleLoginButtonClick" text="Enter" />
+                <Button fx:id="cpfLoginButton" onAction="#handleLoginButtonClick" text="Acessar" />
             </VBox>
         </StackPane>
 
     </VBox>
 
-</VBox>
+    </VBox>

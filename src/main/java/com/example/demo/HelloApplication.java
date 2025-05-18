@@ -14,9 +14,9 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 HelloApplication.class.getResource("views/login/loginPage-view.fxml")
         );
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 	500);
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Banco CVETTI");
         stage.setScene(scene);
         stage.show();
 
