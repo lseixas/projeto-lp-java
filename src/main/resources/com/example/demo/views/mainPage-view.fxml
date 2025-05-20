@@ -5,7 +5,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.MainPageController">
 
-    <fx:include source="../reusable/topBar/topBar-reusable.fxml" />
+    <fx:include source="reusable/topBar-reusable.fxml" />
 
     <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10">

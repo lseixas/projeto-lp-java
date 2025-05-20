@@ -12,11 +12,11 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(
-                HelloApplication.class.getResource("views/login/loginPage-view.fxml")
+                HelloApplication.class.getResource("views/loginPage-view.fxml")
         );
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 	500);
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Banco CVETTI");
         stage.setScene(scene);
         stage.show();
 

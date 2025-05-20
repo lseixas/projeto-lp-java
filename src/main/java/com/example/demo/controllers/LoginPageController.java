@@ -60,7 +60,7 @@ public class LoginPageController {
                 System.out.println("CPF e senha válidos: " + cpf + ", " + password);
                 //proceed to next page
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage/mainPage-view.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                     Parent root = loader.load();
 
                     // get current stage from any node
