@@ -1,18 +1,21 @@
 package com.example.demo.models.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class User {
 
     public static String identifier = "User";
 
     private String name;
-
     private String cpf;
     private String email;
     private String password;
-
     private float balance;
+
+    private final List<Transaction> historico = new ArrayList<>();
 
     public User(String name, String cpf, String email, String password) {
 
@@ -38,6 +41,43 @@ public class User {
         this.password = password;
         this.balance = 0.0f;
 
+    }
+
+    /* Operacoes Financeiras */
+
+    public Transaction depositar(float valor) {
+        if (valor <= 0) throw new IllegalArgumentException("Valor deve ser positivo");
+        balance += valor;
+        Transaction tx = Transaction.novoDeposito(this, valor);
+        historico.add(tx);
+        return tx;
+    }
+
+    public Transaction sacar(float valor) {
+        if (valor <= 0) throw new IllegalArgumentException("Valor deve ser positivo");
+        if (balance < valor) throw new IllegalArgumentException("Saldo insuficiente");
+        balance -= valor;
+        Transaction tx = Transaction.novoSaque(this, valor);
+        historico.add(tx);
+        return tx;
+    }
+
+    public Transaction pix(User destino, float valor) {
+        if (destino == null) throw new IllegalArgumentException("Destinatário nulo");
+        if (valor <= 0) throw new IllegalArgumentException("Valor deve ser positivo");
+        if (balance < valor) throw new IllegalArgumentException("Saldo insuficiente");
+
+        balance          -= valor;
+        destino.balance  += valor;
+
+        Transaction tx = Transaction.novoPix(this, destino, valor);
+        historico.add(tx);
+        destino.historico.add(tx);
+        return tx;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public String getName() {
@@ -90,6 +130,10 @@ public class User {
             throw new IllegalArgumentException("Invalid balance");
         }
         this.balance = balance;
+    }
+
+    public List<Transaction> getHistorico() {
+        return historico;
     }
 
     public void displayInfo() {
