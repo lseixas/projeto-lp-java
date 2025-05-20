@@ -1,5 +1,7 @@
 package com.example.demo.models.connection;
 
+import com.example.demo.models.DAOs.UserDAOs;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,7 +18,7 @@ public class UserConnection {
     public Connection connectar() throws SQLException {
         String servidor = "localhost";
         String porta = "3306";
-        String banco = "banco_cvetti";
+        String banco = "banco_cvetti_users";
         String usuario = "root";
         String senha = "root";
         return DriverManager.getConnection(STR."jdbc:mysql://\{servidor}:\{porta}/\{banco}?user=\{usuario}&password=\{senha}");
