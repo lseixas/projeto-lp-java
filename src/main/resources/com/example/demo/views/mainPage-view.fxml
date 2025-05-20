@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.MainPageController">
+
+    <fx:include source="../reusable/topBar/topBar-reusable.fxml" />
+
+    <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10">
+            <Label text="Selecione uma das opções!" VBox.vgrow="ALWAYS"/>
+            <GridPane alignment="CENTER" hgap="50" vgap="50" VBox.vgrow="ALWAYS">
+                <Button fx:id="buttonConta" prefHeight="100" prefWidth="300" text="Conta" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Button fx:id="buttonTransacao" prefHeight="100" prefWidth="300" text="Transação" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Button prefHeight="100" prefWidth="300" text="Bottom Left" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Button prefHeight="100" prefWidth="300" text="Bottom Right" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            </GridPane>
+        </VBox>
+    </StackPane>
+
+
+</VBox>

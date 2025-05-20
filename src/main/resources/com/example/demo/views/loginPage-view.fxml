@@ -6,7 +6,7 @@
 <VBox fx:id="rootVBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.demo.controllers.LoginPageController">
 
-    <fx:include source="../reusable/topBar/topBar-reusable.fxml" />
+    <fx:include source="reusable/topBar-reusable.fxml" />
 
     <VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" prefWidth="640.0" prefHeight="480.0">
 

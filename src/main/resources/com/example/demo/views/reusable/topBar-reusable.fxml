@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 <!-- Changed from VBox to HBox since you only have one row of content -->
-<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.TopBarController"
       prefHeight="80" alignment="CENTER" spacing="20">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
