@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.controllers.CreateAccountPageController"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <fx:include source="reusable/topBar-reusable.fxml" />
+
+    <HBox alignment="CENTER" style="-fx-border-radius: 8">
+        <VBox>
+            <VBox>
+                <Label text="nome completo"/>
+                <TextField/>
+            </VBox>
+            <VBox>
+                <Label text="email"/>
+                <TextField/>
+            </VBox>
+            <VBox>
+                <Label text="password"/>
+                <TextField/>
+            </VBox>
+            <VBox>
+                <Label text="cpf"/>
+                <TextField/>
+            </VBox>
+            <VBox>
+                <Label text="data de nascimento"/>
+                <TextField/>
+            </VBox>
+        </VBox>
+        <ImageView fitHeight="200" fitWidth="200" pickOnBounds="true" preserveRatio="true"/>
+    </HBox>
+
+</VBox>

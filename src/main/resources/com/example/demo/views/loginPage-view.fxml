@@ -7,21 +7,26 @@
 
     <fx:include source="reusable/topBar-reusable.fxml" />
 
-    <VBox prefHeight="480.0" prefWidth="640.0" style="-fx-background-color:rgb(255, 186, 186);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
         <!-- Central Content (grows with window) -->
         <StackPane alignment="CENTER" VBox.vgrow="ALWAYS">
-            <VBox fx:id="centerLoginBox" alignment="TOP_CENTER" maxHeight="200" maxWidth="300" spacing="10" style="-fx-background-color: #ff8e8e; -fx-padding: 20; -fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6;">
+            <VBox fx:id="centerLoginBox"
+                  alignment="TOP_CENTER"
+                  spacing="10"
+                  maxWidth="300"
+                  maxHeight="300"
+                  prefWidth="300"
+                  prefHeight="300"
+                  style="-fx-background-color: #ff8e8e; -fx-padding: 20; -fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6;">
                 <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Olá, seja bem-vindo!" />
                 <VBox fx:id="cpfLabelInput" alignment="TOP_CENTER" spacing="10">
                     <Label text="CPF" />
                     <TextField fx:id="cpfTextField" onAction="#handleEnterPressed" promptText="999.999.999-99" />
                 </VBox>
-                <VBox fx:id="passwordContainer" alignment="TOP_CENTER" managed="false" spacing="10" visible="false" xmlns:fx="http://javafx.com/fxml">
-
+                <VBox fx:id="passwordContainer" alignment="TOP_CENTER" managed="false" spacing="10" visible="false">
                     <Label text="Digite sua senha:" />
                     <TextField fx:id="passwordTextField" prefWidth="88.0" promptText="Senha" />
-
                 </VBox>
                 <Button fx:id="cpfLoginButton" onAction="#handleLoginButtonClick" text="Acessar" />
             </VBox>
@@ -29,4 +34,4 @@
 
     </VBox>
 
-    </VBox>
+</VBox>

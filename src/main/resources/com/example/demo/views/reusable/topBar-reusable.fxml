@@ -10,17 +10,30 @@
 <?import javafx.scene.text.Font?>
 
 <!-- Changed from VBox to HBox since you only have one row of content -->
-<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color:rgb(255, 0, 0);"
-      prefHeight="160" spacing="20">
+<HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      prefHeight="100"
+      alignment="CENTER"
+      spacing="20">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
 
-    <ImageView fitHeight="10.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true"/>
+    <!-- Logotipo -->
+    <ImageView fitHeight="80" fitWidth="140" pickOnBounds="true" preserveRatio="true"/>
 
-    <HBox alignment="CENTER" prefHeight="80" minHeight="80" maxHeight="80"
-          style="-fx-background-color: linear-gradient(rgb(255, 67, 67), rgb(255, 145, 145)); -fx-border-color: rgb(255, 206, 206); -fx-border-radius: 20; -fx-background-radius: 20;">
-        <Label text="Banco CVETTI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: white;">
-        </Label>
+    <!-- Nome do Banco -->
+    <HBox alignment="CENTER"
+          prefHeight="80" minHeight="80" maxHeight="80"
+          style="-fx-background-color: linear-gradient(rgb(255, 67, 67), rgb(255, 145, 145));
+                 -fx-border-color: rgb(255, 206, 206);
+                 -fx-border-radius: 20;
+                 -fx-background-radius: 20;">
+        <Label text="Banco CVETTI"
+               style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: white;" />
     </HBox>
-    <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+
+    <!-- Menu -->
+    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
         <MenuBar>
             <menus>
                 <Menu text="Ajuda">
@@ -36,4 +49,5 @@
             </menus>
         </MenuBar>
     </HBox>
+
 </HBox>
