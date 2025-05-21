@@ -14,30 +14,45 @@
 
     <fx:include source="reusable/topBar-reusable.fxml" />
 
-    <HBox alignment="CENTER" style="-fx-border-radius: 8">
-        <VBox>
-            <VBox>
-                <Label text="nome completo"/>
-                <TextField/>
+    <StackPane>
+
+        <HBox alignment="CENTER" layoutX="150"
+              spacing="10"
+              maxWidth="300"
+              maxHeight="300"
+              prefWidth="300"
+              prefHeight="300"
+              style="-fx-padding: 10; -fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6;">
+            <VBox alignment="CENTER">
+                <VBox>
+                    <Label text="nome completo"/>
+                    <TextField fx:id="cAccNameField"/>
+                </VBox>
+                <VBox>
+                    <Label text="email"/>
+                    <TextField fx:id="cAccEmailField"/>
+                </VBox>
+                <VBox>
+                    <Label text="data de nascimento"/>
+                    <TextField fx:id="cAccBirthField"/>
+                </VBox>
+                <VBox>
+                    <Label text="cpf"/>
+                    <TextField fx:id="cAccCpfField"/>
+                </VBox>
+                <VBox>
+                    <Label text="senha"/>
+                    <TextField fx:id="cAccPasswordField"/>
+                </VBox>
+                <VBox>
+                    <Label text="confirmação de senha"/>
+                    <TextField fx:id="cAccConfirmPasswordField"/>
+                </VBox>
             </VBox>
-            <VBox>
-                <Label text="email"/>
-                <TextField/>
-            </VBox>
-            <VBox>
-                <Label text="password"/>
-                <TextField/>
-            </VBox>
-            <VBox>
-                <Label text="cpf"/>
-                <TextField/>
-            </VBox>
-            <VBox>
-                <Label text="data de nascimento"/>
-                <TextField/>
-            </VBox>
-        </VBox>
-        <ImageView fitHeight="200" fitWidth="200" pickOnBounds="true" preserveRatio="true"/>
-    </HBox>
+            <ImageView fitHeight="200" fitWidth="200" pickOnBounds="true" preserveRatio="true"/>
+        </HBox>
+
+    </StackPane>
+
 
 </VBox>
