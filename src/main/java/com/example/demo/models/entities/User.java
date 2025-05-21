@@ -15,7 +15,7 @@ public class User {
     private String password;
     private float balance;
 
-    private final List<Transaction> historico = new ArrayList<>();
+    private final List<String> historico = new ArrayList<>();
 
     public User(String name, String cpf, String email, String password) {
 
@@ -49,7 +49,7 @@ public class User {
         if (valor <= 0) throw new IllegalArgumentException("Valor deve ser positivo");
         balance += valor;
         Transaction tx = Transaction.novoDeposito(this, valor);
-        historico.add(tx);
+        historico.add(tx.getId());
         return tx;
     }
 
@@ -58,7 +58,7 @@ public class User {
         if (balance < valor) throw new IllegalArgumentException("Saldo insuficiente");
         balance -= valor;
         Transaction tx = Transaction.novoSaque(this, valor);
-        historico.add(tx);
+        historico.add(tx.getId());
         return tx;
     }
 

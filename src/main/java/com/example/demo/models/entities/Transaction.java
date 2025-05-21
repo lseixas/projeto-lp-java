@@ -9,7 +9,7 @@ public class Transaction {
     
     public static final String identifier = "Transaction";
 
-    public enum Type {DEPOSITO, SAQUE, PIX}
+    public enum Type {DEPOSITO, SAQUE}
 
     private String id;
     private Type type;
@@ -23,7 +23,7 @@ public class Transaction {
         
         if(!validadeAmount(pagaCpf)) throw new IllegalArgumentException("CPF de origem inválido");
 
-        if(type == Type.PIX && !validateCpf(targetCpf))
+        if(type == Type.PIX && !validateCpf(recebeCpf))
             throw new IllegalArgumentException("CPF de destino inválido");
 
             this.id = UUID.randomUUID().toString();
@@ -67,16 +67,14 @@ public class Transaction {
     }
 
     public static Transaction novoDeposito(User user, float valor){
-        return new Transaction(Type.DEPOSITO, user.getCpf(), user.getCpf(), valor);
+        return new Transaction(Type.DEPOSITO, "SYSTEM", user.getCpf(), valor);
     }
 
     public static Transaction novoSaque(User user, float valor){
-        return new Transaction(Type.SAQUE, user.getCpf(), null, valor);
+        return new Transaction(Type.SAQUE, user.getCpf(), "SYSTEM", valor);
     }
 
-    public static Transaction novoPix(User paga, User recebe, float valor) {
+    /* public static Transaction novoPix(User paga, User recebe, float valor) {
         return new Transaction(Type.PIX, paga.getCpf(), recebe.getCpf(), valor);
-    }
-
-
+    } */
 }
