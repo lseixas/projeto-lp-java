@@ -13,8 +13,7 @@
 <HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
       prefHeight="70"            alignment="CENTER_LEFT"    spacing="20"               style="-fx-background-color: #f0f0f0; -fx-border-color: #d0d0d0; -fx-border-width: 0 0 1 0;"> <padding>
     <Insets top="5" right="15" bottom="5" left="15"/> </padding>
-
-    <ImageView fx:id="logoImageView" fitHeight="50" fitWidth="100" pickOnBounds="true" preserveRatio="true"/>
+    
     <HBox fx:id="bankNameContainer" alignment="CENTER"
           prefHeight="50" minHeight="50" maxHeight="50"
           style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgb(255, 67, 67), rgb(255, 100, 100));
