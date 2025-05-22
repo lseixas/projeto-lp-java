@@ -15,12 +15,13 @@ public class UserConnection {
         }
     }
 
-    public Connection connectar() throws SQLException {
+    public Connection conectar() throws SQLException {
         String servidor = "localhost";
         String porta = "3306";
         String banco = "banco_cvetti_users";
         String usuario = "root";
         String senha = "root";
-        return DriverManager.getConnection(STR."jdbc:mysql://\{servidor}:\{porta}/\{banco}?user=\{usuario}&password=\{senha}");
+        return DriverManager.getConnection(
+                "jdbc:mysql://" + servidor + ":" + porta + "/" + banco + "?user=" + usuario + "&password=" + senha);
     }
 }
