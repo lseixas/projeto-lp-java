@@ -27,10 +27,10 @@ public class CreateAccountPageController {
     @FXML public TextField cAccCpfField;
     @FXML private Label cAccCpfError; // Error label for CPF
 
-    @FXML public TextField cAccPasswordField; // Or PasswordField cAccPasswordField;
+    @FXML public PasswordField cAccPasswordField; // Or PasswordField cAccPasswordField;
     @FXML private Label cAccPasswordError; // Error label for password
 
-    @FXML public TextField cAccConfirmPasswordField; // Or PasswordField cAccConfirmPasswordField;
+    @FXML public PasswordField cAccConfirmPasswordField; // Or PasswordField cAccConfirmPasswordField;
     @FXML private Label cAccConfirmPasswordError; // Error label for confirm password
 
     public void initialize() {
@@ -100,9 +100,8 @@ public class CreateAccountPageController {
             // String name = cAccNameField.getText();
             // String email = cAccEmailField.getText();
             // ... etc.
-            clearAllFieldsAndErrors(); // Optionally clear fields after successful submission
             handleLogin();
-
+            clearAllFieldsAndErrors(); // Optionally clear fields after successful submission
         } else {
             System.out.println("Formulário inválido. Por favor, corrija os erros.");
         }
@@ -118,8 +117,6 @@ public class CreateAccountPageController {
         }
     }
 
-    // Overload for PasswordField if you use it
-    /*
     private boolean validateField(PasswordField field, Label errorLabel, String errorMessage) {
         if (field.getText() == null || field.getText().trim().isEmpty()) {
             showError(errorLabel, errorMessage);
@@ -129,7 +126,6 @@ public class CreateAccountPageController {
             return true;
         }
     }
-    */
 
     private void showError(Label errorLabel, String message) {
         if (errorLabel != null) {
@@ -172,6 +168,8 @@ public class CreateAccountPageController {
                 cAccEmailField.getText(),
                 cAccPasswordField.getText()
         );
+
+        System.out.println(NewUser.toString());
 
         try {
             userDAOs.createUser(userDbConnection, NewUser);

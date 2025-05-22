@@ -7,47 +7,38 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
 
-<!-- Changed from VBox to HBox since you only have one row of content -->
 <HBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      prefHeight="100"
-      alignment="CENTER"
-      spacing="20">
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
+      prefHeight="70"            alignment="CENTER_LEFT"    spacing="20"               style="-fx-background-color: #f0f0f0; -fx-border-color: #d0d0d0; -fx-border-width: 0 0 1 0;"> <padding>
+    <Insets top="5" right="15" bottom="5" left="15"/> </padding>
 
-    <!-- Logotipo -->
-    <ImageView fitHeight="80" fitWidth="140" pickOnBounds="true" preserveRatio="true"/>
-
-    <!-- Nome do Banco -->
-    <HBox alignment="CENTER"
-          prefHeight="80" minHeight="80" maxHeight="80"
-          style="-fx-background-color: linear-gradient(rgb(255, 67, 67), rgb(255, 145, 145));
-                 -fx-border-color: rgb(255, 206, 206);
-                 -fx-border-radius: 20;
-                 -fx-background-radius: 20;">
+    <ImageView fx:id="logoImageView" fitHeight="50" fitWidth="100" pickOnBounds="true" preserveRatio="true"/>
+    <HBox fx:id="bankNameContainer" alignment="CENTER"
+          prefHeight="50" minHeight="50" maxHeight="50"
+          style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgb(255, 67, 67), rgb(255, 100, 100));
+                 -fx-border-color: rgb(255, 180, 180);
+                 -fx-border-radius: 10;
+                 -fx-background-radius: 10; -fx-padding: 0 15 0 15;">
         <Label text="Banco CVETTI"
-               style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: white;" />
+               style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;" />
     </HBox>
 
-    <!-- Menu -->
-    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-        <MenuBar>
-            <menus>
-                <Menu text="Ajuda">
-                    <items>
-                        <MenuItem text="Contatar suporte" />
-                    </items>
-                </Menu>
-                <Menu text="Sobre">
-                    <items>
-                        <MenuItem text="Aplicativo do Banco CVETTI" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-    </HBox>
+    <Region HBox.hgrow="ALWAYS" />
 
+    <MenuBar fx:id="mainMenuBar">
+        <menus>
+            <Menu text="Ajuda">
+                <items>
+                    <MenuItem text="Contatar suporte" />
+                </items>
+            </Menu>
+            <Menu text="Sobre">
+                <items>
+                    <MenuItem text="Aplicativo do Banco CVETTI" />
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
 </HBox>

@@ -110,6 +110,16 @@ public class User {
         }};
     }
 
+    public String toString(){
+        return "User{" +
+                "name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
+
     public boolean validateName(String name){
         //validate name logic
         return true;

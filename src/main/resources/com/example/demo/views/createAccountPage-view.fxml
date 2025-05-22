@@ -40,11 +40,11 @@
                 </VBox>
                 <VBox spacing="2">
                     <Label text="senha"/>
-                    <TextField fx:id="cAccPasswordField" prefWidth="250"/> <Label fx:id="cAccPasswordError" style="-fx-text-fill: red;" managed="false" visible="false"/>
+                    <PasswordField fx:id="cAccPasswordField" prefWidth="250"/> <Label fx:id="cAccPasswordError" style="-fx-text-fill: red;" managed="false" visible="false"/>
                 </VBox>
                 <VBox spacing="2">
                     <Label text="confirmação de senha"/>
-                    <TextField fx:id="cAccConfirmPasswordField" prefWidth="250"/> <Label fx:id="cAccConfirmPasswordError" style="-fx-text-fill: red;" managed="false" visible="false"/>
+                    <PasswordField fx:id="cAccConfirmPasswordField" prefWidth="250"/> <Label fx:id="cAccConfirmPasswordError" style="-fx-text-fill: red;" managed="false" visible="false"/>
                 </VBox>
                 <Button text="Criar Conta" onAction="#submitForm" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 15;"/>
             </VBox>

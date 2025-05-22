@@ -1,5 +1,8 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.DAOs.UserDAOs;
+import com.example.demo.models.connection.UserConnection;
+import com.example.demo.models.entities.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 public class LoginPageController {
@@ -49,6 +54,7 @@ public class LoginPageController {
             if(validateCpf(cpf)){
                 System.out.println("CPF válido: " + cpf);
                 addExtraInputPane();
+                cpfTextField.setEditable(false);
                 loadedPasswordField = true;
             } else {
                 System.out.println("CPF inválido: " + cpf);
@@ -60,6 +66,18 @@ public class LoginPageController {
                 System.out.println("CPF e senha válidos: " + cpf + ", " + password);
                 //proceed to next page
                 try {
+
+                    Connection userDBConnection = new UserConnection().conectar();
+                    UserDAOs userDAOs = new UserDAOs();
+
+                    User user = userDAOs.getUserByCpf(userDBConnection, cpf);
+
+                    if (user == null) {
+                        System.out.println("Usuário não encontrado.");
+                        //show error message
+                        return;
+                    }
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                     Parent root = loader.load();
 
@@ -68,7 +86,7 @@ public class LoginPageController {
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     stage.show();
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     throw new RuntimeException(e);
                 }
             } else {
