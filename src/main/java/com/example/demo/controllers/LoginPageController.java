@@ -9,6 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,25 +26,25 @@ public class LoginPageController {
     private TextField cpfTextField;
     @FXML
     private TextField passwordTextField;
-    @FXML
-    private VBox centerLoginBox;
-    @FXML
-    private VBox passwordContainer;
-    @FXML
-    private Button cpfLoginButton;
-
-    private boolean loadedPasswordField = false;
 
     //handler for enter pressed
 
-    public void handleEnterPressed(){
-        handleLogin();
+    public void handleKeyPressed(KeyEvent keyEvent) {
+
+        if(keyEvent.getCode().toString().equals("ENTER")){
+            handleLogin();
+        }
+
+        return;
+
     }
 
-    //handler for button click
+    public void handleSubmitButton(MouseEvent mouseEvent) {
+        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
+            handleLogin(); // Assuming this is your login logic method
+        }
 
-    public void handleLoginButtonClick(){
-        handleLogin();
+        return;
     }
 
     //handle login
@@ -53,9 +56,7 @@ public class LoginPageController {
         if(!cpf.isEmpty() && password.isEmpty() ){
             if(validateCpf(cpf)){
                 System.out.println("CPF válido: " + cpf);
-                addExtraInputPane();
                 cpfTextField.setEditable(false);
-                loadedPasswordField = true;
             } else {
                 System.out.println("CPF inválido: " + cpf);
                 //show error message
@@ -78,6 +79,8 @@ public class LoginPageController {
                         return;
                     }
 
+                    //add check to see if password is correct
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                     Parent root = loader.load();
 
@@ -86,6 +89,7 @@ public class LoginPageController {
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     stage.show();
+
                 } catch (IOException | SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -99,14 +103,6 @@ public class LoginPageController {
             //show error message
         }
     }
-
-    //visible password text field
-
-    private void addExtraInputPane() {
-        passwordContainer.setVisible(true);
-        passwordContainer.setManaged(true);
-    }
-
 
     //field validations
 
@@ -123,5 +119,4 @@ public class LoginPageController {
     public void Initialize(){
 
     }
-
 }

@@ -2,35 +2,62 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="rootVBox" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.LoginPageController">
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #A3C4EB;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.LoginPageController">
 
-    <fx:include source="reusable/topBar-reusable.fxml" />
+    <ImageView fx:id="backgroundImage" fitWidth="900.0" fitHeight="600.0" pickOnBounds="true" preserveRatio="false" opacity="0.6">
+    </ImageView>
 
-    <StackPane alignment="CENTER" VBox.vgrow="ALWAYS" onKeyPressed="#handleEnterPressed">
+    <VBox fx:id="loginFormPane" onKeyPressed="#handleKeyPressed" alignment="CENTER" maxHeight="480.0" maxWidth="400.0" spacing="20.0" style="-fx-background-color: #F6FAFF; -fx-background-radius: 12; -fx-padding: 30 40 30 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.5, 0, 1);">
 
-        <VBox fx:id="centerLoginBox"
-              alignment="CENTER"
-              spacing="20"
-              maxWidth="300"
-              prefWidth="300"
-              style="-fx-background-color: #ff8e8e; -fx-padding: 25; -fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6;">
-            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Olá, seja bem-vindo!" />
+        <Label text="Bem Vindo!" textAlignment="CENTER" style="-fx-text-fill: #173B64;">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+        </Label>
 
-            <VBox alignment="CENTER" spacing="5"> <Label text="CPF" />
-                <TextField fx:id="cpfTextField" promptText="999.999.999-99" prefWidth="250"/> </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 25; -fx-border-color: #A3C4EB; -fx-border-width: 1.5px; -fx-border-radius: 25; -fx-padding: 5 10 5 10;">
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+            </ImageView>
+            <TextField fx:id="cpfTextField" promptText="Digite seu cpf" style="-fx-background-color: transparent; -fx-text-fill: #173B64;" HBox.hgrow="ALWAYS"/>
+        </HBox>
 
-            <VBox fx:id="passwordContainer" alignment="CENTER" managed="false" spacing="5" visible="false"> <Label text="Digite sua senha:" />
-                <TextField fx:id="passwordTextField" promptText="Senha" prefWidth="250"/> </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 25; -fx-border-color: #A3C4EB; -fx-border-width: 1.5px; -fx-border-radius: 25; -fx-padding: 5 10 5 10;">
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+            </ImageView>
+            <PasswordField fx:id="passwordTextField" promptText="Digite sua senha" style="-fx-background-color: transparent; -fx-text-fill: #173B64;" HBox.hgrow="ALWAYS"/>
+        </HBox>
 
-            <Button fx:id="cpfLoginButton" onAction="#handleLoginButtonClick" text="Acessar" prefWidth="250" prefHeight="35">
-                <VBox.margin>
-                    <Insets top="10.0" /> </VBox.margin>
-            </Button>
-        </VBox>
-    </StackPane>
-</VBox>
+        <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+            <Hyperlink fx:id="forgotPasswordLink" text="Esqueceu sua senha?" style="-fx-text-fill: #173B64;"/>
+        </HBox>
+
+        <HBox alignment="CENTER" spacing="10.0">
+            <Button fx:id="submitButton" onMouseClicked="#handleSubmitButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: #FFDE70; -fx-text-fill: #173B64; -fx-font-weight: bold; -fx-background-radius: 18;" text="Login" />
+            <Button fx:id="exitButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: #173B64; -fx-text-fill: #F6FAFF; -fx-font-weight: bold; -fx-background-radius: 18;" text="Sair" />
+            <Button fx:id="resetButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: #173B64; -fx-text-fill: #F6FAFF; -fx-font-weight: bold; -fx-background-radius: 18;" text="Resetar" />
+            <VBox.margin>
+                <Insets top="5.0" />
+            </VBox.margin>
+        </HBox>
+
+        <Hyperlink fx:id="signUpLink" text="Primeira vez aqui? Criar conta" style="-fx-text-fill: #173B64;">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </Hyperlink>
+    </VBox>
+</StackPane>
