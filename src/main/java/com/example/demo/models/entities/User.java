@@ -109,7 +109,8 @@ public class User {
             put("balance", balance);
         }};
     }
-
+    
+    @Override
     public String toString(){
         return "User{" +
                 "name='" + name + '\'' +

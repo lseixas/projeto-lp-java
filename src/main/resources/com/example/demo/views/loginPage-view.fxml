@@ -14,12 +14,10 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #A3C4EB;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.LoginPageController">
-
-    <ImageView fx:id="backgroundImage" fitWidth="900.0" fitHeight="600.0" pickOnBounds="true" preserveRatio="false" opacity="0.6">
-    </ImageView>
+    
 
     <VBox fx:id="loginFormPane" onKeyPressed="#handleKeyPressed" alignment="CENTER" maxHeight="480.0" maxWidth="400.0" spacing="20.0" style="-fx-background-color: #F6FAFF; -fx-background-radius: 12; -fx-padding: 30 40 30 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.5, 0, 1);">
-
+        <fx:include source="reusable/topBar-reusable.fxml" />
         <Label text="Bem Vindo!" textAlignment="CENTER" style="-fx-text-fill: #173B64;">
             <font>
                 <Font name="Arial Bold" size="40.0" />
