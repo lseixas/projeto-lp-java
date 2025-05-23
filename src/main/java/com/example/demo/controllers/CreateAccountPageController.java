@@ -1,17 +1,18 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.DAOs.UserDAOs;
-import com.example.demo.models.connection.UserConnection;
-import com.example.demo.models.entities.User;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label; // Import Label
-import javafx.scene.control.PasswordField; // Import if using PasswordField
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.event.ActionEvent; // Import for button action
-
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import com.example.demo.models.DAOs.UserDAOs;
+import com.example.demo.models.connection.UserConnection;
+import com.example.demo.models.entities.User; // Import Label
+
+import javafx.event.ActionEvent; // Import if using PasswordField
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField; // Import for button action
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 public class CreateAccountPageController {
 
@@ -174,7 +175,7 @@ public class CreateAccountPageController {
         try {
             userDAOs.createUser(userDbConnection, NewUser);
             System.out.println("Usuário criado com sucesso!");
-        } catch (Exception e) {
+        } catch (SQLException | IllegalArgumentException e) {
             System.out.println("Erro ao criar usuário: " + e.getMessage());
         }
     }

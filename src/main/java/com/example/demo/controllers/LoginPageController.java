@@ -1,24 +1,23 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.DAOs.UserDAOs;
-import com.example.demo.models.connection.UserConnection;
-import com.example.demo.models.entities.User;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
+
+import com.example.demo.models.DAOs.UserDAOs;
+import com.example.demo.models.connection.UserConnection;
+import com.example.demo.models.entities.User;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class LoginPageController {
 
@@ -34,17 +33,12 @@ public class LoginPageController {
         if(keyEvent.getCode().toString().equals("ENTER")){
             handleLogin();
         }
-
-        return;
-
     }
 
     public void handleSubmitButton(MouseEvent mouseEvent) {
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
             handleLogin(); // Assuming this is your login logic method
         }
-
-        return;
     }
 
     //handle login

@@ -1,5 +1,4 @@
 module com.example.demo {
-    requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
 
@@ -12,6 +11,7 @@ module com.example.demo {
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires transitive javafx.graphics;
+    requires transitive javafx.controls;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
