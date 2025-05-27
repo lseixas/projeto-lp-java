@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.function.UnaryOperator;
 
 import com.example.demo.models.DAOs.UserDAOs;
 import com.example.demo.models.connection.UserConnection;
@@ -15,9 +16,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField; // Import for button action
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -63,55 +63,211 @@ public class CreateAccountPageController {
         bindManagedToVisible(cAccPasswordError);
         bindManagedToVisible(cAccConfirmPasswordError);
 
-        cAccBirthField.textProperty().addListener(new ChangeListener<String>() {
+        cAccCpfField.textProperty().addListener(new ChangeListener<String>() {
             private boolean K_applying_format_X = false; // Flag to prevent listener recursion
 
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (K_applying_format_X) {
-                    return; // Exit if the change was made by this listener
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(K_applying_format_X){
+                    return;
                 }
 
-                K_applying_format_X = true; // Set flag to indicate programmatic change
+                K_applying_format_X = true;
 
-                // 1. Remove all non-digit characters to get a clean sequence of numbers
                 String digitsOnly = newValue.replaceAll("[^\\d]", "");
 
                 StringBuilder formattedText = new StringBuilder();
                 int len = digitsOnly.length();
 
-                // 2. Build the formatted text DD/MM/YYYY
                 if (len > 0) {
-                    formattedText.append(digitsOnly.substring(0, Math.min(len, 2))); // Day part (DD)
+                    formattedText.append(digitsOnly.substring(0, Math.min(len, 3))); // First part (XXX)
                 }
-                if (len > 2) {
-                    formattedText.append("/"); // Add slash after day
-                    formattedText.append(digitsOnly.substring(2, Math.min(len, 4))); // Month part (MM)
+                if (len >= 3) {
+                    formattedText.append("."); // Add dot after first part
+                    formattedText.append(digitsOnly.substring(3, Math.min(len, 6))); // Second part (XXX)
                 }
-                if (len > 4) {
-                    formattedText.append("/"); // Add slash after month
-                    formattedText.append(digitsOnly.substring(4, Math.min(len, 8))); // Year part (YYYY)
+                if (len >= 6) {
+                    formattedText.append("."); // Add dot after second part
+                    formattedText.append(digitsOnly.substring(6, Math.min(len, 9))); // Third part (XXX)
+                }
+                if (len >= 9) {
+                    formattedText.append("-"); // Add dash after third part
+                    formattedText.append(digitsOnly.substring(9, Math.min(len, 11))); // Last part (XX)
                 }
 
-                // 3. Limit total length to DD/MM/YYYY (10 characters)
-                if (formattedText.length() > 10) {
-                    formattedText.setLength(10);
+                if (formattedText.length() > 15) {
+                    formattedText.setLength(15);
                 }
 
                 String finalText = formattedText.toString();
 
-                // 4. Update the TextField only if the formatted text is different
-                //    This helps manage cursor position and avoid unnecessary updates.
                 if (!newValue.equals(finalText)) {
-                    cAccBirthField.setText(finalText);
-                    // For simplicity, move the caret (cursor) to the end of the text.
-                    // More sophisticated cursor management is possible but adds complexity.
-                    cAccBirthField.positionCaret(finalText.length());
+                    cAccCpfField.setText(finalText);
+                    cAccCpfField.positionCaret(finalText.length());
                 }
 
                 K_applying_format_X = false; // Reset flag
             }
         });
+
+        cAccBirthField.setTextFormatter(new TextFormatter<>(birthDateFilter));
+        cAccCpfField.setTextFormatter(new TextFormatter<>(cpfFilter));
+
+        cAccCpfField.setOnKeyPressed(event -> {
+            System.out.println("Key Pressed: " + event.getCode() + ", Text: '" + event.getText() + "', Char: '" + event.getCharacter() + "'");
+            if (event.getCode() == KeyCode.BACK_SPACE) {
+                System.out.println("BACKSPACE key pressed on TextField");
+            }
+        });
+
     }
+
+    UnaryOperator<TextFormatter.Change> birthDateFilter = change -> {
+        String currentTextInField = ((TextInputControl) change.getControl()).getText();
+        // proposedTextIfNoFormatting is what the text field would contain if this change
+        // were applied directly, without any of our formatting logic.
+        String proposedTextIfNoFormatting = change.getControlNewText();
+
+        String digitsOnly = proposedTextIfNoFormatting.replaceAll("[^\\d]", "");
+
+        if (digitsOnly.length() > 8) {
+            digitsOnly = digitsOnly.substring(0, 8); // Limit to 8 digits (DDMMYYYY)
+        }
+
+        // Build the "ideal" formatted string based on current digits
+        StringBuilder idealFormattedTextBuilder = new StringBuilder();
+        int len = digitsOnly.length();
+
+        if (len > 0) idealFormattedTextBuilder.append(digitsOnly.substring(0, Math.min(len, 2))); // DD
+        if (len >= 2) idealFormattedTextBuilder.append("/");                                       // DD/
+        if (len > 2) idealFormattedTextBuilder.append(digitsOnly.substring(2, Math.min(len, 4)));// MM
+        if (len >= 4) idealFormattedTextBuilder.append("/");                                       // DD/MM/
+        if (len > 4) idealFormattedTextBuilder.append(digitsOnly.substring(4, Math.min(len, 8)));// YYYY
+
+        String idealFormattedText = idealFormattedTextBuilder.toString();
+        String textToSet = idealFormattedText; // By default, use the fully formatted version
+        int newCaretPosition = idealFormattedText.length(); // Default caret to end
+
+        // --- Condition to handle explicit deletion of a separator ---
+        if (change.isDeleted()) {
+            // Check if proposedTextIfNoFormatting is the idealFormattedText minus its trailing slash
+            if (idealFormattedText.endsWith("/") &&
+                    !proposedTextIfNoFormatting.endsWith("/") && // Ensure the proposed text is "clean"
+                    proposedTextIfNoFormatting.equals(idealFormattedText.substring(0, idealFormattedText.length() - 1))) {
+
+                // This means the user likely deleted a trailing slash that we would have auto-added.
+                // So, we'll use their version (without the slash) and set the caret accordingly.
+                textToSet = proposedTextIfNoFormatting;
+                newCaretPosition = textToSet.length();
+            } else {
+                // If deleting a digit, caret should ideally go where the digit was deleted.
+                // change.getRangeStart() is the start of the deleted range in the *original* string.
+                // This is a simpler caret logic for general deletion:
+                newCaretPosition = Math.min(change.getRangeStart(), textToSet.length());
+            }
+        } else if (change.isAdded()) {
+            // For additions, try to place caret after the logical group just completed
+            if (len == 2 && textToSet.endsWith("/")) newCaretPosition = 3;       // After DD/
+            else if (len == 4 && textToSet.endsWith("/")) newCaretPosition = 6;  // After DD/MM/
+            else if (len == 8 && textToSet.length() == 10) newCaretPosition = 10; // End of DD/MM/YYYY
+            // else it defaults to textToSet.length()
+        }
+
+
+        change.setText(textToSet);
+        change.setRange(0, currentTextInField.length()); // Replace the entire current text
+        change.selectRange(newCaretPosition, newCaretPosition); // Set the new caret position
+
+        return change;
+    };
+
+    UnaryOperator<TextFormatter.Change> cpfFilter = change -> {
+        String currentTextInField = ((TextInputControl) change.getControl()).getText();
+        String proposedTextIfNoFormatting = change.getControlNewText(); // What TextField thinks text will be
+
+        // --- Debugging Output - VERY IMPORTANT! ---
+        System.out.println("--- CPF Filter ---");
+        System.out.println("isAdded: " + change.isAdded() + ", isDeleted: " + change.isDeleted() + ", isReplaced: " + change.isReplaced());
+        System.out.println("Range: " + change.getRangeStart() + "-" + change.getRangeEnd() + ", Text: '" + change.getText() + "'");
+        System.out.println("Caret Pos: " + change.getCaretPosition() + ", Anchor: " + change.getAnchor());
+        System.out.println("Current Field Text: '" + currentTextInField + "'");
+        System.out.println("Proposed Text If No Formatting: '" + proposedTextIfNoFormatting + "'");
+        // --- End Debugging Output ---
+
+        String digitsOnly = proposedTextIfNoFormatting.replaceAll("[^\\d]", "");
+
+        if (digitsOnly.length() > 11) {
+            digitsOnly = digitsOnly.substring(0, 11);
+        }
+
+        StringBuilder idealFormattedTextBuilder = new StringBuilder();
+        int len = digitsOnly.length();
+
+        // Build the ideal formatted string based on digitsOnly
+        if (len > 0) idealFormattedTextBuilder.append(digitsOnly.substring(0, Math.min(len, 3)));
+        if (len >= 3) {
+            idealFormattedTextBuilder.append(".");
+            if (len > 3) idealFormattedTextBuilder.append(digitsOnly.substring(3, Math.min(len, 6)));
+        }
+        if (len >= 6) {
+            idealFormattedTextBuilder.append(".");
+            if (len > 6) idealFormattedTextBuilder.append(digitsOnly.substring(6, Math.min(len, 9)));
+        }
+        if (len >= 9) {
+            idealFormattedTextBuilder.append("-");
+            if (len > 9) idealFormattedTextBuilder.append(digitsOnly.substring(9, Math.min(len, 11)));
+        }
+
+        String idealFormattedText = idealFormattedTextBuilder.toString();
+        String textToSet = idealFormattedText;
+        int newCaretPosition = idealFormattedText.length();
+
+
+        // --- Special Handling for Backspace on Auto-Added Separators ---
+        // This activates if the 'Change' object itself indicates no text change (a "no-op"),
+        // but the caret position suggests a backspace might have occurred on a trailing separator.
+        if (!change.isAdded() && !change.isDeleted() && !change.isReplaced() && // If it's a "no-op" change
+                change.getText().isEmpty() &&                                     // and no text is being inserted
+                currentTextInField.equals(proposedTextIfNoFormatting) &&          // and proposed text is same as current
+                change.getRangeStart() == currentTextInField.length() &&          // and the "change" is at the end of the text
+                currentTextInField.length() > 0) {                                // and there is text
+
+            System.out.println("  Attempting special backspace for no-op change at end of text.");
+            char lastCharOfCurrentText = currentTextInField.charAt(currentTextInField.length() - 1);
+            int numDigitsInCurrentText = currentTextInField.replaceAll("[^\\d]","").length();
+
+            boolean wasTrailingSeparatorWeCareAbout = false;
+            if (lastCharOfCurrentText == '.' && (numDigitsInCurrentText == 3 || numDigitsInCurrentText == 6)) {
+                wasTrailingSeparatorWeCareAbout = true;
+            } else if (lastCharOfCurrentText == '-' && numDigitsInCurrentText == 9) {
+                wasTrailingSeparatorWeCareAbout = true;
+            }
+
+            if (wasTrailingSeparatorWeCareAbout) {
+                // User likely pressed backspace on an auto-added trailing separator,
+                // but it resulted in a no-op 'Change'. We'll force the deletion.
+                textToSet = currentTextInField.substring(0, currentTextInField.length() - 1);
+                newCaretPosition = textToSet.length();
+                System.out.println("  FORCED separator deletion. New textToSet: '" + textToSet + "'");
+            }
+        } else if (change.isDeleted()) {
+            // This is for "normal" deletions (like deleting a digit)
+            // The textToSet is already idealFormattedText based on remaining digits.
+            // We just need to set the caret.
+            newCaretPosition = Math.min(change.getRangeStart(), textToSet.length());
+            System.out.println("  Standard deletion (digit?). Caret at: " + newCaretPosition);
+        } else if (change.isAdded()) {
+            // For additions, newCaretPosition is already textToSet.length(), which is usually correct.
+            System.out.println("  Addition. Caret at: " + newCaretPosition);
+        }
+
+        change.setText(textToSet);
+        change.setRange(0, currentTextInField.length()); // Replace the entire current text
+        change.selectRange(newCaretPosition, newCaretPosition); // Set the new caret position
+
+        System.out.println("Final text set: '" + textToSet + "', caret: " + newCaretPosition);
+        System.out.println("--- CPF Filter End ---");
+        return change;
+    };
 
     private void bindManagedToVisible(Label label) {
         if (label != null) {
@@ -139,9 +295,9 @@ public class CreateAccountPageController {
         allFieldsValid &= validateNameField(cAccNameField, cAccNameError);
         allFieldsValid &= validateEmailField(cAccEmailField, cAccEmailError);
         allFieldsValid &= validateBirthDateField(cAccBirthField, cAccBirthError);
-        allFieldsValid &= validateNullField(cAccCpfField, cAccCpfError, "CPF é obrigatório.");
-        allFieldsValid &= validateNullField(cAccPasswordField, cAccPasswordError, "Senha é obrigatória.");
-        allFieldsValid &= validateNullField(cAccConfirmPasswordField, cAccConfirmPasswordError, "Confirmação de senha é obrigatória.");
+        allFieldsValid &= validateCpfField(cAccCpfField, cAccCpfError);
+        allFieldsValid &= validatePasswordField(cAccPasswordField, cAccPasswordError);
+        allFieldsValid &= validateConfirmPasswordField(cAccConfirmPasswordField, cAccConfirmPasswordError);
 
         // Additional check for password confirmation match, only if both fields are filled
         if (allFieldsValid && cAccPasswordField.getText() != null && !cAccPasswordField.getText().isEmpty() &&
@@ -218,7 +374,54 @@ public class CreateAccountPageController {
                 return true;
             }
         }
-        return false; // This is returned if validateNullField is false
+        return false;
+    }
+
+    private boolean validateCpfField(TextField field, Label errorLabel) {
+        if(validateNullField(field, errorLabel, "CPF é obrigatório.")) {
+            String cpf = field.getText().trim();
+            if (!cpf.matches("\\d{3}.\\d{3}.\\d{3}-\\d{2}")) { // CPF must be 11 digits
+                showError(errorLabel, "CPF inválido.");
+                return false;
+            } else {
+                hideError(errorLabel);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validatePasswordField(PasswordField field, Label errorLabel) {
+        if (validateNullField(field, cAccPasswordError, "Senha é obrigatória.")) {
+            String password = field.getText().trim();
+            if (password.length() < 8) {
+                showError(errorLabel, "A senha deve ter pelo menos 6 caracteres.");
+                return false;
+            } else {
+                hideError(errorLabel);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validateConfirmPasswordField(PasswordField field, Label errorLabel) {
+        if (validateNullField(field, errorLabel, "Confirmação de senha é obrigatória.")) {
+            String confirmPassword = field.getText().trim();
+            if (confirmPassword.length() < 8) {
+                showError(errorLabel, "A confirmação de senha deve ter pelo menos 6 caracteres.");
+                return false;
+            }
+            else if (!cAccPasswordField.getText().trim().equals(confirmPassword)) {
+                showError(errorLabel, "As senhas não coincidem.");
+                return false;
+            }
+            else {
+                hideError(errorLabel);
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean validateNullField(TextField field, Label errorLabel, String errorMessage) {
