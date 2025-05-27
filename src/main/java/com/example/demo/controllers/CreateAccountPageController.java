@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.function.UnaryOperator;
 
 import com.example.demo.models.DAOs.UserDAOs;
@@ -299,23 +301,6 @@ public class CreateAccountPageController {
         allFieldsValid &= validatePasswordField(cAccPasswordField, cAccPasswordError);
         allFieldsValid &= validateConfirmPasswordField(cAccConfirmPasswordField, cAccConfirmPasswordError);
 
-        // Additional check for password confirmation match, only if both fields are filled
-        if (allFieldsValid && cAccPasswordField.getText() != null && !cAccPasswordField.getText().isEmpty() &&
-                cAccConfirmPasswordField.getText() != null && !cAccConfirmPasswordField.getText().isEmpty()) {
-            if (!cAccPasswordField.getText().equals(cAccConfirmPasswordField.getText())) {
-                showError(cAccConfirmPasswordError, "As senhas não coincidem.");
-                allFieldsValid = false;
-            } else {
-                // If they match and an error was previously shown for mismatch, hide it.
-                // The emptiness check for cAccConfirmPasswordError is already handled by validateField.
-                // This ensures only the mismatch error is cleared if passwords now match.
-                if (cAccConfirmPasswordError.getText().equals("As senhas não coincidem.")) {
-                    hideError(cAccConfirmPasswordError);
-                }
-            }
-        }
-
-
         if (allFieldsValid) {
             // All fields are valid and passwords match (if applicable)
             System.out.println("Formulário válido. Prosseguindo com a criação da conta...");
@@ -479,11 +464,16 @@ public class CreateAccountPageController {
         Connection userDbConnection = new UserConnection().conectar();
         UserDAOs userDAOs = new UserDAOs();
 
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate localBirthDate = LocalDate.parse(cAccBirthField.getCharacters(), inputFormatter);
+
         User NewUser = new User(
-                cAccNameField.getText(),
-                cAccCpfField.getText(),
-                cAccEmailField.getText(),
-                cAccPasswordField.getText()
+            cAccNameField.getText().trim(),
+            cAccEmailField.getText().trim(),
+            cAccCpfField.getText().trim(),
+            cAccPasswordField.getText().trim(),
+            0.0f, // Default balance
+            java.sql.Date.valueOf(localBirthDate)
         );
 
         System.out.println(NewUser.toString());

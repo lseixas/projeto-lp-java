@@ -1,123 +1,98 @@
 package com.example.demo.models.entities;
 
+import java.sql.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class User {
 
     public static String identifier = "User";
 
-    private String name;
-
-    private String cpf;
+    private UUID userId;
+    private String nome;
     private String email;
-    private String password;
+    private String cpf;
+    private String senha;
+    private float saldo;
+    private Date nascimento;
 
-    private float balance;
+    public User(String nome,
+                String email,
+                String cpf,
+                String senha,
+                float saldo,
+                Date nascimento) {
 
-    public User(String name, String cpf, String email, String password) {
-
-        if (!validateName(name)) {
-            throw new IllegalArgumentException("Invalid name");
-        }
-        if (!validadeCpf(cpf)) {
-            throw new IllegalArgumentException("Invalid CPF");
-        }
-        if (!validateEmail(email)) {
-            throw new IllegalArgumentException("Invalid email");
-        }
-        if (!validatePassword(password)) {
-            throw new IllegalArgumentException("Invalid password");
-        }
-        if (!validateBalance(balance)) {
-            throw new IllegalArgumentException("Invalid balance");
-        }
-
-        this.name = name;
-        this.cpf = cpf;
+        this.userId = UUID.randomUUID();
+        this.nome = nome;
         this.email = email;
-        this.password = password;
-        this.balance = 0.0f;
-
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name){
-        if (!validateName(name)) {
-            throw new IllegalArgumentException("Invalid name");
-        }
-        this.name = name;
-    }
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        if (!validadeCpf(cpf)) {
-            throw new IllegalArgumentException("Invalid CPF");
-        }
         this.cpf = cpf;
+        this.senha = senha;
+        this.saldo = saldo;
+        this.nascimento = nascimento;
+
     }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
     public String getEmail() {
         return email;
     }
-    public void setEmail(String email) {
-        if (!validateEmail(email)) {
-            throw new IllegalArgumentException("Invalid email");
-        }
-        this.email = email;
+
+    public String getCpf() {
+        return cpf;
     }
-    public String getPassword() {
-        if (!validatePassword(password)) {
-            throw new IllegalArgumentException("Invalid password");
-        }
-        return password;
+
+    public String getSenha() {
+        return senha;
     }
-    public void setPassword(String password) {
-        if (!validatePassword(password)) {
-            throw new IllegalArgumentException("Invalid password");
-        }
-        this.password = password;
+
+    public float getSaldo() {
+        return saldo;
     }
-    public float getBalance() {
-        if (!validateBalance(balance)) {
-            throw new IllegalArgumentException("Invalid balance");
-        }
-        return balance;
-    }
-    public void setBalance(float balance) {
-        if (!validateBalance(balance)) {
-            throw new IllegalArgumentException("Invalid balance");
-        }
-        this.balance = balance;
+
+    public Date getNascimento() {
+        return nascimento;
     }
 
     public void displayInfo() {
-        System.out.println("Name: " + name);
-        System.out.println("CPF: " + cpf);
+        System.out.println("User ID: " + userId);
+        System.out.println("Name: " + nome);
         System.out.println("Email: " + email);
-        System.out.println("Password: " + password);
-        System.out.println("Balance: " + balance);
+        System.out.println("CPF: " + cpf);
+        System.out.println("Password: " + senha);
+        System.out.println("Balance: " + saldo);
+        System.out.println("Birth Date: " + nascimento);
     }
 
     public HashMap<String, Object> toDict() {
         return new HashMap<String, Object>() {{
-            put("name", name);
-            put("cpf", cpf);
+            put("userId", userId);
+            put("nome", nome);
             put("email", email);
-            put("password", password);
-            put("balance", balance);
+            put("cpf", cpf);
+            put("senha", senha);
+            put("saldo", saldo);
+            put("nascimento", nascimento);
         }};
     }
     
     @Override
     public String toString(){
         return "User{" +
-                "name='" + name + '\'' +
-                ", cpf='" + cpf + '\'' +
+                "userId=" + userId +
+                ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", balance=" + balance +
+                ", cpf='" + cpf + '\'' +
+                ", senha='" + senha + '\'' +
+                ", saldo=" + saldo +
+                ", nascimento=" + nascimento +
                 '}';
     }
 

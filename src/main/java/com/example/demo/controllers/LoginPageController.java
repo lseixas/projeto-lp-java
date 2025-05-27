@@ -60,33 +60,33 @@ public class LoginPageController {
             if(validateCpf(cpf) && validadePassword(password)){
                 System.out.println("CPF e senha válidos: " + cpf + ", " + password);
                 //proceed to next page
-                try {
-
-                    Connection userDBConnection = new UserConnection().conectar();
-                    UserDAOs userDAOs = new UserDAOs();
-
-                    User user = userDAOs.getUserByCpf(userDBConnection, cpf);
-
-                    if (user == null) {
-                        System.out.println("Usuário não encontrado.");
-                        //show error message
-                        return;
-                    }
-
-                    //add check to see if password is correct
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
-                    Parent root = loader.load();
-
-                    // get current stage from any node
-                    Stage stage = (Stage) cpfTextField.getScene().getWindow();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-
-                } catch (IOException | SQLException e) {
-                    throw new RuntimeException(e);
-                }
+//                try {
+//
+//                    Connection userDBConnection = new UserConnection().conectar();
+//                    UserDAOs userDAOs = new UserDAOs();
+//
+//                    User user = userDAOs.getUserByCpf(userDBConnection, cpf);
+//
+//                    if (user == null) {
+//                        System.out.println("Usuário não encontrado.");
+//                        //show error message
+//                        return;
+//                    }
+//
+//                    //add check to see if password is correct
+//
+//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
+//                    Parent root = loader.load();
+//
+//                    // get current stage from any node
+//                    Stage stage = (Stage) cpfTextField.getScene().getWindow();
+//                    Scene scene = new Scene(root);
+//                    stage.setScene(scene);
+//                    stage.show();
+//
+//                } catch (IOException | SQLException e) {
+//                    throw new RuntimeException(e);
+//                }
             } else {
                 System.out.println("CPF ou senha inválidos: " + cpf + ", " + password);
                 //show error message
