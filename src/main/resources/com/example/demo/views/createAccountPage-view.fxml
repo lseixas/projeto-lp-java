@@ -47,7 +47,7 @@
                 <Label text="Já tem uma conta? " style="-fx-text-fill: #505050;">
                     <font><Font name="Arial" size="14.0" /></font>
                 </Label>
-                <Hyperlink fx:id="loginLink" text="Entrar" style="-fx-text-fill: #173B64;" onAction="#handleLoginLinkAction"> <font><Font name="Arial Bold" size="14.0" /></font>
+                <Hyperlink fx:id="loginLink" text="Entrar" style="-fx-text-fill: #173B64;" onMouseClicked="#handleLoginLinkAction"> <font><Font name="Arial Bold" size="14.0" /></font>
                 </Hyperlink>
                 <VBox.margin>
                     <Insets bottom="20.0" />
