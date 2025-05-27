@@ -34,6 +34,15 @@ public class CreateAccountPageController {
     @FXML public PasswordField cAccConfirmPasswordField; // Or PasswordField cAccConfirmPasswordField;
     @FXML private Label cAccConfirmPasswordError; // Error label for confirm password
 
+    public void initData(String cpfFromLastPage){
+        if (cAccCpfField.getText().isEmpty()) {
+            cAccCpfField.setText(cpfFromLastPage);
+            System.out.println("CPF from last page: " + cpfFromLastPage);
+        } else {
+            System.out.println("CPF field already filled: " + cAccCpfField.getText());
+        }
+    }
+
     public void initialize() {
         // Initialization logic if needed
         // Bind managed property to visible property for all error labels
@@ -178,5 +187,11 @@ public class CreateAccountPageController {
         } catch (SQLException | IllegalArgumentException e) {
             System.out.println("Erro ao criar usuário: " + e.getMessage());
         }
+    }
+
+    public void handleBackToLogin(ActionEvent actionEvent) {
+    }
+
+    public void handleLoginLinkAction(ActionEvent actionEvent) {
     }
 }

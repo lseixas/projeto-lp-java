@@ -52,7 +52,7 @@
             </VBox.margin>
         </HBox>
 
-        <Hyperlink fx:id="signUpLink" text="Primeira vez aqui? Criar conta" style="-fx-text-fill: #173B64;">
+        <Hyperlink fx:id="signUpLink" text="Primeira vez aqui? Criar conta" style="-fx-text-fill: #173B64;" onMouseClicked="#handleCreateAccount">
             <VBox.margin>
                 <Insets top="10.0" />
             </VBox.margin>

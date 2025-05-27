@@ -14,15 +14,8 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 HelloApplication.class.getResource("views/loginPage-view.fxml")
         );
-        Scene scene = new Scene(fxmlLoader.load(), 500, 	500);
-javafx.scene.image.Image logo = new javafx.scene.image.Image(
-    HelloApplication.class.getResource("/com/example/demo/views/reusable/logo.png").toExternalForm(),
-    64, // largura desejada
-    64, // altura desejada
-    true, // preservar proporção
-    true // suavização
-);
-stage.getIcons().add(logo);
+        Scene scene = new Scene(fxmlLoader.load(), 1080, 	720);
+
         stage.setTitle("Banco CVETTI");
         stage.setScene(scene);
         stage.show();

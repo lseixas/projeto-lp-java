@@ -98,6 +98,29 @@ public class LoginPageController {
         }
     }
 
+    //create account redirect
+
+    public void handleCreateAccount(MouseEvent mouseEvent) {
+
+        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/createAccountPage-view.fxml"));
+                Parent root = loader.load();
+
+                CreateAccountPageController createAccountPageController = loader.getController();
+                createAccountPageController.initData(cpfTextField.getText());
+
+                // get current stage from any node
+                Stage stage = (Stage) cpfTextField.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     //field validations
 
     public boolean validateCpf(String cpf){

@@ -1,54 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.StackPane?>
+
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<StackPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #A3C4EB;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.CreateAccountPageController">
+    <HBox alignment="CENTER">
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.demo.controllers.CreateAccountPageController"
-      prefHeight="400.0" prefWidth="600.0">
+        <VBox alignment="CENTER" HBox.hgrow="NEVER" prefWidth="400.0" style="-fx-background-color: #173B64;" spacing="20">
+            <padding>
+                <Insets top="40.0" right="40.0" bottom="40.0" left="40.0" />
+            </padding>
+            <ImageView fx:id="brandingImageView" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@reusable/Revenue-amico.png" />
+                </image>
+                <fitWidth>600</fitWidth>  <fitHeight>600</fitHeight>
+            </ImageView>
+        </VBox>
 
-    <fx:include source="reusable/topBar-reusable.fxml" />
+        <VBox fx:id="createAccountFormPane" alignment="TOP_LEFT" HBox.hgrow="ALWAYS" style="-fx-background-color: #F6FAFF;" spacing="10.0" onKeyPressed="#handleEnterPressed" >
+            <padding>
+                <Insets top="40.0" right="60.0" bottom="40.0" left="60.0" />
+            </padding>
 
-    <StackPane onKeyPressed="#handleEnterPressed" VBox.vgrow="ALWAYS">
+            <Label text="Criar Nova Conta" style="-fx-text-fill: #173B64;">
+                <font>
+                    <Font name="Arial Bold" size="32.0" />
+                </font>
+                <VBox.margin>
+                    <Insets bottom="5.0" />
+                </VBox.margin>
+            </Label>
 
-        <HBox alignment="CENTER"
-              spacing="10"
-              maxWidth="Infinity" maxHeight="Infinity" style="-fx-padding: 20; -fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6;">
-            <VBox alignment="CENTER_LEFT" spacing="5">
-                <VBox spacing="2"> <Label text="nome completo"/>
-                    <TextField fx:id="cAccNameField" prefWidth="250"/> <Label fx:id="cAccNameError" style="-fx-text-fill: red;" managed="false" visible="false"/>
-                </VBox>
-                <VBox spacing="2">
-                    <Label text="email"/>
-                    <TextField fx:id="cAccEmailField" prefWidth="250"/>
-                    <Label fx:id="cAccEmailError" style="-fx-text-fill: red;" managed="false" visible="false"/>
-                </VBox>
-                <VBox spacing="2">
-                    <Label text="data de nascimento"/>
-                    <TextField fx:id="cAccBirthField" prefWidth="250"/>
-                    <Label fx:id="cAccBirthError" style="-fx-text-fill: red;" managed="false" visible="false"/>
-                </VBox>
-                <VBox spacing="2">
-                    <Label text="cpf"/>
-                    <TextField fx:id="cAccCpfField" prefWidth="250"/>
-                    <Label fx:id="cAccCpfError" style="-fx-text-fill: red;" managed="false" visible="false"/>
-                </VBox>
-                <VBox spacing="2">
-                    <Label text="senha"/>
-                    <PasswordField fx:id="cAccPasswordField" prefWidth="250"/> <Label fx:id="cAccPasswordError" style="-fx-text-fill: red;" managed="false" visible="false"/>
-                </VBox>
-                <VBox spacing="2">
-                    <Label text="confirmação de senha"/>
-                    <PasswordField fx:id="cAccConfirmPasswordField" prefWidth="250"/> <Label fx:id="cAccConfirmPasswordError" style="-fx-text-fill: red;" managed="false" visible="false"/>
-                </VBox>
-                <Button text="Criar Conta" onAction="#submitForm" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 15;"/>
-            </VBox>
-            <ImageView fitHeight="200" fitWidth="200" pickOnBounds="true" preserveRatio="true"/>
-        </HBox>
-    </StackPane>
-</VBox>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Já tem uma conta? " style="-fx-text-fill: #505050;">
+                    <font><Font name="Arial" size="14.0" /></font>
+                </Label>
+                <Hyperlink fx:id="loginLink" text="Entrar" style="-fx-text-fill: #173B64;" onAction="#handleLoginLinkAction"> <font><Font name="Arial Bold" size="14.0" /></font>
+                </Hyperlink>
+                <VBox.margin>
+                    <Insets bottom="20.0" />
+                </VBox.margin>
+            </HBox>
+
+
+            <Label text="Nome Completo" style="-fx-font-weight: bold; -fx-text-fill: #173B64;"/>
+            <TextField fx:id="cAccNameField" promptText="Digite seu nome completo" style="-fx-background-color: #FFFFFF; -fx-border-color: #A3C4EB; -fx-border-radius: 4; -fx-background-radius: 4; -fx-text-fill: #173B64; -fx-font-size: 14px;"/>
+            <Label fx:id="cAccNameError" style="-fx-text-fill: red;" managed="false" visible="false">
+                <VBox.margin><Insets bottom="5.0" /></VBox.margin>
+            </Label>
+
+            <Label text="Email" style="-fx-font-weight: bold; -fx-text-fill: #173B64;"/>
+            <TextField fx:id="cAccEmailField" promptText="seuemail@exemplo.com" style="-fx-background-color: #FFFFFF; -fx-border-color: #A3C4EB; -fx-border-radius: 4; -fx-background-radius: 4; -fx-text-fill: #173B64; -fx-font-size: 14px;"/>
+            <Label fx:id="cAccEmailError" style="-fx-text-fill: red;" managed="false" visible="false">
+                <VBox.margin><Insets bottom="5.0" /></VBox.margin>
+            </Label>
+
+            <Label text="Data de Nascimento" style="-fx-font-weight: bold; -fx-text-fill: #173B64;"/>
+            <TextField fx:id="cAccBirthField" promptText="DD/MM/AAAA" style="-fx-background-color: #FFFFFF; -fx-border-color: #A3C4EB; -fx-border-radius: 4; -fx-background-radius: 4; -fx-text-fill: #173B64; -fx-font-size: 14px;"/>
+            <Label fx:id="cAccBirthError" style="-fx-text-fill: red;" managed="false" visible="false">
+                <VBox.margin><Insets bottom="5.0" /></VBox.margin>
+            </Label>
+
+            <Label text="CPF" style="-fx-font-weight: bold; -fx-text-fill: #173B64;"/>
+            <TextField fx:id="cAccCpfField" promptText="Apenas números" style="-fx-background-color: #FFFFFF; -fx-border-color: #A3C4EB; -fx-border-radius: 4; -fx-background-radius: 4; -fx-text-fill: #173B64; -fx-font-size: 14px;"/>
+            <Label fx:id="cAccCpfError" style="-fx-text-fill: red;" managed="false" visible="false">
+                <VBox.margin><Insets bottom="5.0" /></VBox.margin>
+            </Label>
+
+            <Label text="Senha" style="-fx-font-weight: bold; -fx-text-fill: #173B64;"/>
+            <PasswordField fx:id="cAccPasswordField" promptText="Crie uma senha forte" style="-fx-background-color: #FFFFFF; -fx-border-color: #A3C4EB; -fx-border-radius: 4; -fx-background-radius: 4; -fx-text-fill: #173B64; -fx-font-size: 14px;"/>
+            <Label fx:id="cAccPasswordError" style="-fx-text-fill: red;" managed="false" visible="false">
+                <VBox.margin><Insets bottom="5.0" /></VBox.margin>
+            </Label>
+
+            <Label text="Confirmar Senha" style="-fx-font-weight: bold; -fx-text-fill: #173B64;"/>
+            <PasswordField fx:id="cAccConfirmPasswordField" promptText="Repita sua senha" style="-fx-background-color: #FFFFFF; -fx-border-color: #A3C4EB; -fx-border-radius: 4; -fx-background-radius: 4; -fx-text-fill: #173B64; -fx-font-size: 14px;"/>
+            <Label fx:id="cAccConfirmPasswordError" style="-fx-text-fill: red;" managed="false" visible="false">
+                <VBox.margin><Insets bottom="15.0" /></VBox.margin> </Label>
+
+            <Button fx:id="createAccountButton" text="Criar Conta" onAction="#submitForm" prefHeight="45.0" maxWidth="Infinity" style="-fx-background-color: #FFDE70; -fx-text-fill: #173B64; -fx-font-weight: bold; -fx-background-radius: 8; -fx-font-size: 16px;">
+                <VBox.margin>
+                    <Insets top="10.0" />
+                </VBox.margin>
+            </Button>
+            <VBox VBox.vgrow="ALWAYS"/> </VBox>
+    </HBox>
+</StackPane>
