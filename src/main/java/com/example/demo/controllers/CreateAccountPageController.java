@@ -277,7 +277,7 @@ public class CreateAccountPageController {
         }
     }
 
-    public void handleEnterPressed(KeyEvent keyEvent) throws SQLException {
+    public void handleEnterPressed(KeyEvent keyEvent) throws SQLException, IOException {
         if (keyEvent.getCode().toString().equals("ENTER")) {
             System.out.println("Enter key pressed");
             validateAndProceed();
@@ -285,12 +285,12 @@ public class CreateAccountPageController {
     }
 
     @FXML // Add this if you added the button in FXML
-    private void submitForm(ActionEvent event) throws SQLException {
+    private void submitForm(ActionEvent event) throws SQLException, IOException {
         System.out.println("Submit button pressed");
         validateAndProceed();
     }
 
-    private void validateAndProceed() throws SQLException {
+    private void validateAndProceed() throws SQLException, IOException {
         boolean allFieldsValid = true;
 
         // Validate each field
@@ -309,7 +309,19 @@ public class CreateAccountPageController {
             // String name = cAccNameField.getText();
             // String email = cAccEmailField.getText();
             // ... etc.
-            handleLogin();
+            if (handleLogin() != null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
+                Parent root = loader.load();
+
+                // get current stage from any node
+                Stage stage = (Stage) cAccCpfField.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            else {
+                System.out.println("Erro ao criar usuário. Verifique os dados e tente novamente.");
+            };
             clearAllFieldsAndErrors(); // Optionally clear fields after successful submission
         } else {
             System.out.println("Formulário inválido. Por favor, corrija os erros.");
@@ -474,7 +486,7 @@ public class CreateAccountPageController {
     }
 
 
-    public void handleLogin() throws SQLException {
+    public User handleLogin() throws SQLException {
         Connection userDbConnection = new UserConnection().conectar();
         UserDAOs userDAOs = new UserDAOs();
 
@@ -494,9 +506,10 @@ public class CreateAccountPageController {
 
         try {
             userDAOs.createUser(userDbConnection, NewUser);
-            System.out.println("Usuário criado com sucesso!");
+            return NewUser;
         } catch (SQLException | IllegalArgumentException e) {
             System.out.println("Erro ao criar usuário: " + e.getMessage());
+            return null;
         }
     }
 

@@ -9,11 +9,13 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.demo.controllers.MainPageController"
-            prefHeight="650.0" prefWidth="750.0" stylesheets="@mainPageStyle.css" styleClass="main-pane-background">
+            prefHeight="650.0" prefWidth="750.0" stylesheets="@styles/mainPageStyle.css" styleClass="main-pane-background">
 
     <center>
-        <GridPane fx:id="buttonsGrid" hgap="30" vgap="30" alignment="CENTER"> <padding>
-            <Insets top="40" right="40" bottom="40" left="40"/> </padding>
+        <GridPane fx:id="buttonsGrid" styleClass="buttons-grid" hgap="25" vgap="25" alignment="CENTER">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
 
             <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
@@ -26,17 +28,32 @@
                 <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
             </rowConstraints>
 
-            <Button text="Botão 1" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <Button text="Botão 2" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <Button text="Botão 3" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <!-- Primeira linha com botões principais -->
+            <Button fx:id="accountButton" onMouseClicked="#handleAccountButtonClick"
+                    text="💰 Conta" prefHeight="160" prefWidth="220" styleClass="yellow-primary-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Button fx:id="depositButton" onMouseClicked="#handleDepositButtonClick"
+                    text="📈 Depositar" prefHeight="160" prefWidth="220" styleClass="blue-secondary-button"
+                    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Button fx:id="withdrawButton" onMouseClicked="#handleWithdrawButtonClick"
+                    text="💸 Sacar" prefHeight="160" prefWidth="220" styleClass="danger-button"
+                    GridPane.columnIndex="2" GridPane.rowIndex="0"/>
 
-            <Button text="Botão 4" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <Button text="Botão 5" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <Button text="Botão 6" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <!-- Segunda linha -->
+            <Button text="📊 Relatórios" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Button text="🔄 Transferir" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Button text="⚙️ Configurações" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
-            <Button text="Botão 7" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <Button text="Botão 8" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <Button text="Botão 9" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <!-- Terceira linha -->
+            <Button text="📞 Suporte" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Button text="🎯 Investimentos" prefHeight="160" prefWidth="220" styleClass="gold-accent-button"
+                    GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Button text="📱 Mobile" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="2" GridPane.rowIndex="2"/>
         </GridPane>
     </center>
 </BorderPane>
