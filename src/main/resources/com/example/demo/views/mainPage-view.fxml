@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.MainPageController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo.controllers.MainPageController"
+            prefHeight="650.0" prefWidth="750.0" stylesheets="@mainPageStyle.css" styleClass="main-pane-background">
 
-    <fx:include source="reusable/topBar-reusable.fxml" />
+    <center>
+        <GridPane fx:id="buttonsGrid" hgap="30" vgap="30" alignment="CENTER"> <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/> </padding>
 
-    <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10">
-            <Label text="Selecione uma das opções!" VBox.vgrow="ALWAYS"/>
-            <GridPane alignment="CENTER" hgap="50" vgap="50" VBox.vgrow="ALWAYS">
-                <Button fx:id="buttonConta" prefHeight="100" prefWidth="300" text="Conta" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <Button fx:id="buttonTransacao" prefHeight="100" prefWidth="300" text="Transação" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <Button prefHeight="100" prefWidth="300" text="Bottom Left" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <Button prefHeight="100" prefWidth="300" text="Bottom Right" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            </GridPane>
-        </VBox>
-    </StackPane>
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+            </rowConstraints>
 
+            <Button text="Botão 1" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Button text="Botão 2" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Button text="Botão 3" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
 
-</VBox>
+            <Button text="Botão 4" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Button text="Botão 5" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Button text="Botão 6" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+
+            <Button text="Botão 7" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Button text="Botão 8" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Button text="Botão 9" prefHeight="160" prefWidth="240" styleClass="standard-button" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        </GridPane>
+    </center>
+</BorderPane>

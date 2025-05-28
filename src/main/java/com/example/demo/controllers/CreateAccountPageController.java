@@ -333,14 +333,21 @@ public class CreateAccountPageController {
         return false;
     }
 
-    private boolean validateEmailField(TextField field, Label errorLabel) {
+    private boolean validateEmailField(TextField field, Label errorLabel) throws SQLException {
         if (validateNullField(field, cAccEmailError, "Email é obrigatório.")) {
             String email = field.getText().trim();
             System.out.println(cAccEmailField.getText());
             if (!email.matches("^[\\w-\\.]+@[\\w-]+\\.[a-zA-Z]{2,}$")) {
                 showError(errorLabel, "Email inválido.");
                 return false;
-            } else {
+            }
+            Connection userDbConnection = new UserConnection().conectar();
+            UserDAOs userDAOs = new UserDAOs();
+            if (!(userDAOs.getUserByEmail(userDbConnection, field.getText().trim()) == null)) {
+                showError(errorLabel, "Email já cadastrado.");
+                return false;
+            }
+            else {
                 hideError(errorLabel);
                 return true;
             }
@@ -362,13 +369,20 @@ public class CreateAccountPageController {
         return false;
     }
 
-    private boolean validateCpfField(TextField field, Label errorLabel) {
+    private boolean validateCpfField(TextField field, Label errorLabel) throws SQLException {
         if(validateNullField(field, errorLabel, "CPF é obrigatório.")) {
             String cpf = field.getText().trim();
             if (!cpf.matches("\\d{3}.\\d{3}.\\d{3}-\\d{2}")) { // CPF must be 11 digits
                 showError(errorLabel, "CPF inválido.");
                 return false;
-            } else {
+            }
+            Connection userDbConnection = new UserConnection().conectar();
+            UserDAOs userDAOs = new UserDAOs();
+            if (!(userDAOs.getUserByCpf(userDbConnection, field.getText().trim()) == null)) {
+                showError(errorLabel, "CPF já cadastrado.");
+                return false;
+            }
+            else {
                 hideError(errorLabel);
                 return true;
             }
