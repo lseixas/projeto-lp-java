@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.models.entities.User;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 public class AccountDisplayController {
 
@@ -37,5 +38,8 @@ public class AccountDisplayController {
     }
 
     public void handleBackToHome(ActionEvent actionEvent) {
+    }
+
+    public void handleLogoClick(MouseEvent mouseEvent) {
     }
 }

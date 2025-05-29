@@ -11,33 +11,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Region?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.demo.controllers.AccountDisplayController"
       prefHeight="700.0" prefWidth="1000.0"
       styleClass="root" stylesheets="@styles/accountDisplayStyle.css">
 
-    <!-- Top Navigation Bar -->
-    <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="20.0">
-        <padding>
-            <Insets top="15" bottom="15" left="25" right="25"/>
-        </padding>
-
-        <!-- Back Button -->
-        <Button fx:id="backButton"
-                text="🏠 Página Inicial"
-                styleClass="back-button"
-                onAction="#handleBackToHome"/>
-
-        <!-- Spacer -->
-        <StackPane HBox.hgrow="ALWAYS"/>
-
-        <!-- Page Title -->
-        <Label text="Informações da Conta" styleClass="top-bar-title"/>
-
-        <!-- Right Spacer -->
-        <StackPane HBox.hgrow="ALWAYS"/>
-    </HBox>
+    <!-- Top Bar Section -->
+    <fx:include source="reusable/topBar-reusable.fxml"/>
 
     <!-- Main Content Area -->
     <StackPane alignment="CENTER" VBox.vgrow="ALWAYS">

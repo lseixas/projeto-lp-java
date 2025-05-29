@@ -2,23 +2,45 @@ package com.example.demo.controllers;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class TopBarController {
 
-    public void handleLogoClick(MouseEvent event) {
-        try {
-            // Carrega o FXML da tela de login
-            Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo/views/loginPage-view.fxml"));
-            // Obtém o Stage atual a partir do evento
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            // Troca a cena
-            stage.setScene(new Scene(root, 500, 500));
-        } catch (IOException e) {
+    public void handleBackToHome(MouseEvent mouseEvent) throws IOException {
+
+        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
+            Parent root = loader.load();
+
+            // get current stage from any node
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
+
+    }
+
+
+    public void handleLogoClick(MouseEvent mouseEvent) throws IOException {
+
+        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
+            Parent root = loader.load();
+
+            // get current stage from any node
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+
     }
 }

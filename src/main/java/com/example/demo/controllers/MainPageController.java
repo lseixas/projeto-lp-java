@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class MainPageController {
 
-    User loggedUser;
+    static User loggedUser;
 
     public void initData(User userFromLastPage) {
         loggedUser = userFromLastPage;
