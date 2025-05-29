@@ -3,19 +3,17 @@ package com.example.demo;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.example.demo.util.screenUtil;
+import com.example.demo.util.ScreenUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        ArrayList<Double> dimensions = new screenUtil().getScreenDimensions(0.8, 0.9);
+        ArrayList<Double> dimensions = new ScreenUtil().getScreenDimensions(0.8, 0.9);
         double windowWidth = dimensions.get(0);
         double windowHeight = dimensions.get(1);
 

@@ -5,7 +5,7 @@ import javafx.stage.Screen;
 
 import java.util.ArrayList;
 
-public class screenUtil {
+public class ScreenUtil {
 
     public ArrayList<Double> getScreenDimensions(double widthPercentage, double heightPercentage) {
 

@@ -4,16 +4,6 @@
     -fx-font-family: "Segoe UI", "Arial", sans-serif;
 }
 
-/* Top Navigation Bar */
-.top-bar {
-    -fx-background-color: linear-gradient(to right, #F6FAFF 0%, #EBF3FF 100%); /* Alice Blue gradient */
-    -fx-border-color: rgba(23, 59, 100, 0.1);
-    -fx-border-width: 0 0 3 0;
-    -fx-effect: dropshadow(gaussian, rgba(23, 59, 100, 0.1), 10, 0, 0, 3);
-    -fx-min-height: 90;
-    -fx-max-height: 90;
-}
-
 /* Back Button */
 .back-button {
     -fx-background-color: linear-gradient(to bottom, #173B64 0%, #133252 100%); /* Yale Blue gradient */
