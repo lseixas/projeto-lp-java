@@ -17,6 +17,7 @@ public class MainPageController {
 
     public void initData(User userFromLastPage) {
         loggedUser = userFromLastPage;
+        System.out.println("User logged in: " + loggedUser.getNome());
     }
 
     public void redirectScreen(String viewFileName, Node randomNode) throws IOException {
@@ -34,7 +35,16 @@ public class MainPageController {
 
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
             try {
-                redirectScreen("accountDisplay-view.fxml", (Node) mouseEvent.getSource());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/accountDisplay-view.fxml"));
+                Parent root = loader.load();
+
+                AccountDisplayController accountDisplayController = loader.getController();
+                accountDisplayController.initData(loggedUser);
+
+                Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }

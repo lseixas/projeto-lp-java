@@ -208,6 +208,9 @@ public class LoginPageController implements Initializable { // Modificado aqui
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                     Parent root = loader.load();
+                    MainPageController mainPageController = loader.getController();
+                    System.out.println("Usuário encontrado no DB: " + user.getNome());
+                    mainPageController.initData(user);
 
                     Stage stage = (Stage) cpfTextField.getScene().getWindow();
                     Scene scene = new Scene(root);

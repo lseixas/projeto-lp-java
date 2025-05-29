@@ -304,16 +304,25 @@ public class CreateAccountPageController {
         if (allFieldsValid) {
             // All fields are valid and passwords match (if applicable)
             System.out.println("Formulário válido. Prosseguindo com a criação da conta...");
-            // Add your logic here for creating the account
-            // For example, get text from fields:
-            // String name = cAccNameField.getText();
-            // String email = cAccEmailField.getText();
-            // ... etc.
+
+            Connection userDbConnection = new UserConnection().conectar();
+            UserDAOs userDAOs = new UserDAOs();
+
+            User userToCreate = new User(
+                cAccNameField.getText().trim(),
+                cAccEmailField.getText().trim(),
+                cAccCpfField.getText().trim(),
+                cAccPasswordField.getText().trim(),
+                0.0f, // Default balance
+                java.sql.Date.valueOf(LocalDate.parse(cAccBirthField.getText().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+            );
+
             if (handleLogin() != null) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                 Parent root = loader.load();
+                MainPageController mainPageController = loader.getController();
+                mainPageController.initData(userToCreate);
 
-                // get current stage from any node
                 Stage stage = (Stage) cAccCpfField.getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
@@ -505,8 +514,14 @@ public class CreateAccountPageController {
         System.out.println(NewUser.toString());
 
         try {
-            userDAOs.createUser(userDbConnection, NewUser);
-            return NewUser;
+            User createdUser = userDAOs.createUser(userDbConnection, NewUser);
+            if(createdUser != null) {
+                System.out.println("Usuário criado com sucesso: " + createdUser);
+                return createdUser; // Return the created user
+            } else {
+                System.out.println("Falha ao criar usuário.");
+                return null;
+            }
         } catch (SQLException | IllegalArgumentException e) {
             System.out.println("Erro ao criar usuário: " + e.getMessage());
             return null;

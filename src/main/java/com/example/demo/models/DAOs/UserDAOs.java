@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class UserDAOs {
 
-    public void createUser(Connection conn, User user) throws SQLException {
+    public User createUser(Connection conn, User user) throws SQLException {
         String sql = "INSERT INTO `banco_cvetti_users`.`usuario` (`id`, `nome`, `email`, `cpf`, `senha`, `saldo`, `nascimento`) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
@@ -21,7 +21,13 @@ public class UserDAOs {
             stm.setString(5, user.getSenha());
             stm.setFloat(6, user.getSaldo());
             stm.setDate(7, user.getNascimento()); // Assuming getBirthDate() returns java.sql.Date
-            stm.executeUpdate();
+            int rowsAffected = stm.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return user; // Return the created user
+            } else {
+                return null;
+            }
         }
     }
 
