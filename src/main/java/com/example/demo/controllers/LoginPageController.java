@@ -11,6 +11,7 @@ import com.example.demo.models.DAOs.UserDAOs;
 import com.example.demo.models.connection.UserConnection;
 import com.example.demo.models.entities.User;
 
+import com.example.demo.util.Global;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable; // Importe Initializable
@@ -208,9 +209,8 @@ public class LoginPageController implements Initializable { // Modificado aqui
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                     Parent root = loader.load();
-                    MainPageController mainPageController = loader.getController();
-                    System.out.println("Usuário encontrado no DB: " + user.getNome());
-                    mainPageController.initData(user);
+
+                    Global.setLoggedInUser(cpf); // Define o usuário logado globalmente
 
                     Stage stage = (Stage) cpfTextField.getScene().getWindow();
                     Scene scene = new Scene(root);
@@ -276,10 +276,10 @@ public class LoginPageController implements Initializable { // Modificado aqui
                 userDbConnection = new UserConnection().conectar();
                 UserDAOs userDAOs = new UserDAOs();
 
-                if (userDAOs.getUserByCpf(userDbConnection, cpf) != null) { // Usuário EXISTE no DB
-                    hideError(errorLabel); // Formato e existência OK, esconde erros prévios no campo CPF
-                    return true;           // CPF VÁLIDO para login
-                } else { // Usuário NÃO EXISTE no DB
+                if (userDAOs.getUserByCpf(userDbConnection, cpf) != null) {
+                    hideError(errorLabel);
+                    return true;
+                } else {
                     showError(errorLabel, "CPF não cadastrado.");
                     return false;
                 }

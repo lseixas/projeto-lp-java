@@ -33,65 +33,35 @@
                 <Label fx:id="currentBalanceLabel" text="R$ 0,00" styleClass="balance-value" />
             </VBox>
 
-            <GridPane hgap="15.0" vgap="20.0" alignment="CENTER" styleClass="deposit-grid">
-                <columnConstraints>
-                    <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180" maxWidth="180"/>
-                    <ColumnConstraints hgrow="ALWAYS" minWidth="250" prefWidth="300"/>
-                </columnConstraints>
+            <GridPane hgap="15.0" vgap="10.0" alignment="CENTER" styleClass="deposit-grid"> <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180" maxWidth="180"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="250" prefWidth="300"/>
+            </columnConstraints>
 
-                <!-- Valor do Depósito -->
                 <Label text="💵 Valor do Depósito:" styleClass="label-title"
                        GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                <TextField fx:id="amountField" promptText="R$ 0,00" styleClass="input-field"
-                           GridPane.rowIndex="0" GridPane.columnIndex="1"
-                           maxWidth="Infinity" prefWidth="300"/>
+                <VBox GridPane.rowIndex="0" GridPane.columnIndex="1" spacing="2.0"> <Label fx:id="depositAmountFieldError" managed="false" visible="false" style="-fx-text-fill: red">
+                </Label>
+                    <TextField fx:id="amountField" promptText="R$ 0,00" styleClass="input-field"
+                               maxWidth="Infinity" prefWidth="300"/>
+                </VBox>
 
-                <!-- Método de Pagamento -->
                 <Label text="💳 Método de Pagamento:" styleClass="label-title"
                        GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                <ComboBox fx:id="paymentMethodCombo" styleClass="combo-field"
-                          GridPane.rowIndex="1" GridPane.columnIndex="1"
-                          maxWidth="Infinity" prefWidth="300" />
-
-                <!-- Número do Cartão -->
-                <Label text="🔢 Número do Cartão:" styleClass="label-title" fx:id="cardNumberLabel"
-                       GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                <TextField fx:id="cardNumberField" promptText="**** **** **** ****" styleClass="input-field"
-                           GridPane.rowIndex="2" GridPane.columnIndex="1"
-                           maxWidth="Infinity" prefWidth="300"/>
-
-                <!-- Validade / CVV -->
-                <Label text="📅 Validade / CVV:" styleClass="label-title" fx:id="cardDetailsLabel"
-                       GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                <HBox spacing="10.0" GridPane.rowIndex="3" GridPane.columnIndex="1"
-                      fx:id="cardDetailsControlsHBox" alignment="CENTER_LEFT">
-                    <TextField fx:id="expiryField" promptText="MM/AA" styleClass="input-field-small"
-                               prefWidth="140" maxWidth="140"/>
-                    <TextField fx:id="cvvField" promptText="CVV" styleClass="input-field-small"
-                               prefWidth="140" maxWidth="140"/>
-                </HBox>
-
-                <!-- Chave PIX (inicialmente invisível) -->
-                <Label text="🔑 Chave PIX:" styleClass="label-title" fx:id="pixKeyLabel"
-                       visible="false" managed="false"
-                       GridPane.rowIndex="4" GridPane.columnIndex="0" />
-                <TextField fx:id="pixKeyField" promptText="Digite sua chave PIX" styleClass="input-field"
-                           visible="false" managed="false"
-                           GridPane.rowIndex="4" GridPane.columnIndex="1"
-                           maxWidth="Infinity" prefWidth="300"/>
-
-                <padding>
-                    <Insets top="15" bottom="15" left="20" right="20"/>
-                </padding>
+                <VBox GridPane.rowIndex="1" GridPane.columnIndex="1" spacing="2.0"> <Label fx:id="depositPaymentMethodError" managed="false" visible="false" style="-fx-text-fill: red">
+                </Label>
+                    <ComboBox fx:id="paymentMethodCombo" styleClass="combo-field"
+                              maxWidth="Infinity" prefWidth="300" />
+                </VBox>
             </GridPane>
 
             <VBox alignment="CENTER" spacing="15.0" styleClass="quick-amounts">
                 <Label text="Valores Rápidos" styleClass="quick-amounts-title" />
                 <HBox alignment="CENTER" spacing="15.0">
-                    <Button fx:id="quick50" text="R$ 50" styleClass="quick-amount-button" onAction="#setQuickAmount" />
-                    <Button fx:id="quick100" text="R$ 100" styleClass="quick-amount-button" onAction="#setQuickAmount" />
-                    <Button fx:id="quick200" text="R$ 200" styleClass="quick-amount-button" onAction="#setQuickAmount" />
-                    <Button fx:id="quick500" text="R$ 500" styleClass="quick-amount-button" onAction="#setQuickAmount" />
+                    <Button fx:id="quick50" text="R$ 50" styleClass="quick-amount-button" onMouseClicked="#setQuickAmount" />
+                    <Button fx:id="quick100" text="R$ 100" styleClass="quick-amount-button" onMouseClicked="#setQuickAmount" />
+                    <Button fx:id="quick200" text="R$ 200" styleClass="quick-amount-button" onMouseClicked="#setQuickAmount" />
+                    <Button fx:id="quick500" text="R$ 500" styleClass="quick-amount-button" onMouseClicked="#setQuickAmount" />
                 </HBox>
             </VBox>
 
@@ -103,7 +73,7 @@
                 <Button fx:id="confirmButton"
                         text="✅ Confirmar Depósito"
                         styleClass="yellow-primary-button"
-                        onAction="#handleConfirmDeposit"/>
+                        onMouseClicked="#handleConfirmDeposit"/>
             </HBox>
 
             <VBox alignment="CENTER" spacing="8.0" styleClass="security-notice">

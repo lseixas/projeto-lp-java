@@ -74,4 +74,27 @@ public class UserDAOs {
             }
         }
     }
+
+    public User incrementUserSaldo(Connection conn, User user, double newSaldo) throws SQLException {
+        String sql = "UPDATE `banco_cvetti_users`.`usuario` SET `saldo` = ? WHERE `cpf` = ?;";
+        System.out.println("Updating user saldo for CPF: " + user.getCpf() + " to new saldo: " + newSaldo);
+        try (PreparedStatement stm = conn.prepareStatement(sql)) {
+            stm.setDouble(1, newSaldo + user.getSaldo());
+            stm.setString(2, user.getCpf());
+            int rowsAffected = stm.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return new User(
+                        user.getNome(),
+                        user.getEmail(),
+                        user.getCpf(),
+                        user.getSenha(),
+                        (float) newSaldo + user.getSaldo(), // Update the saldo to the new value
+                        user.getNascimento()
+                );
+            } else {
+                return null;
+            }
+        }
+    }
 }

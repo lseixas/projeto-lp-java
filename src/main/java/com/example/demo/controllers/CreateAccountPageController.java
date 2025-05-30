@@ -11,6 +11,7 @@ import com.example.demo.models.DAOs.UserDAOs;
 import com.example.demo.models.connection.UserConnection;
 import com.example.demo.models.entities.User; // Import Label
 
+import com.example.demo.util.Global;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent; // Import if using PasswordField
@@ -55,9 +56,7 @@ public class CreateAccountPageController {
     }
 
     public void initialize() {
-        // Initialization logic if needed
-        // Bind managed property to visible property for all error labels
-        // This ensures they only take up space when visible.
+
         bindManagedToVisible(cAccNameError);
         bindManagedToVisible(cAccEmailError);
         bindManagedToVisible(cAccBirthError);
@@ -320,8 +319,8 @@ public class CreateAccountPageController {
             if (handleLogin() != null) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                 Parent root = loader.load();
-                MainPageController mainPageController = loader.getController();
-                mainPageController.initData(userToCreate);
+
+                Global.setLoggedInUser(cAccCpfField.getText().trim());
 
                 Stage stage = (Stage) cAccCpfField.getScene().getWindow();
                 Scene scene = new Scene(root);
