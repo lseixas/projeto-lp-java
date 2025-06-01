@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.0</junit.version>
     </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -111,8 +111,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <version>8.4.0</version>
+</dependency>
     </dependencies>
-
+    
     <build>
         <plugins>
             <plugin>
