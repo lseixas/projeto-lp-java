@@ -36,9 +36,4 @@ public class AccountDisplayController {
     public void handleChangePassword(ActionEvent actionEvent) {
     }
 
-    public void handleBackToHome(ActionEvent actionEvent) {
-    }
-
-    public void handleLogoClick(MouseEvent mouseEvent) {
-    }
 }

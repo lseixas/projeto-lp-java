@@ -46,38 +46,29 @@ public class LoginPageController implements Initializable { // Modificado aqui
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Captura o nó pai (HBox) do cpfTextField
         Node cpfParentNode = cpfTextField.getParent();
         if (cpfParentNode instanceof HBox) {
-            // 1. Armazena o estilo original da HBox (definido no FXML)
             originalCpfHBoxStyle = cpfParentNode.getStyle();
 
-            // 2. Cria o estilo "bloqueado" para a HBox
-            // Tentamos substituir apenas a cor de fundo do estilo original.
-            // Se o estilo original não for encontrado como esperado, usamos um fallback.
             if (originalCpfHBoxStyle != null && originalCpfHBoxStyle.contains("-fx-background-color: white;")) {
                 lockedCpfHBoxStyle = originalCpfHBoxStyle.replace(
                         "-fx-background-color: white;",
-                        "-fx-background-color: #cccccc;" // Cinza claro. Mude para um tom mais escuro se preferir (ex: #b0b0b0)
+                        "-fx-background-color: #cccccc;"
                 );
             } else {
-                // Fallback: Define um estilo completo se o original não puder ser processado
-                // Certifique-se que este fallback corresponda às outras propriedades do FXML (radius, border, padding)
                 System.err.println("Estilo original da HBox do CPF não continha '-fx-background-color: white;'. Usando fallback para lockedHBoxStyle.");
                 lockedCpfHBoxStyle = "-fx-background-color: #cccccc; " +
                         "-fx-background-radius: 25; " +
                         "-fx-border-color: #A3C4EB; " +
                         "-fx-border-width: 1.5px; " +
-                        "-fx-border-radius: 25; " + // No seu FXML original, -fx-border-radius aparece duas vezes.
+                        "-fx-border-radius: 25; " +
                         "-fx-padding: 5 10 5 10;";
-                // Se o originalCpfHBoxStyle for nulo, também defina um fallback para ele para o reset
                 if (originalCpfHBoxStyle == null) {
                     originalCpfHBoxStyle = "-fx-background-color: white; -fx-background-radius: 25; -fx-border-color: #A3C4EB; -fx-border-width: 1.5px; -fx-border-radius: 25; -fx-padding: 5 10 5 10;";
                 }
             }
         } else {
             System.err.println("O pai do cpfTextField não é uma HBox como esperado! Não será possível estilizar a HBox.");
-            // Defina fallbacks para os estilos para evitar NullPointerExceptions se o pai não for uma HBox
             originalCpfHBoxStyle = "-fx-background-color: white; -fx-background-radius: 25; -fx-border-color: #A3C4EB; -fx-border-width: 1.5px; -fx-border-radius: 25; -fx-padding: 5 10 5 10;";
             lockedCpfHBoxStyle = originalCpfHBoxStyle.replace("-fx-background-color: white;", "-fx-background-color: #cccccc;");
         }
@@ -94,21 +85,18 @@ public class LoginPageController implements Initializable { // Modificado aqui
 
                         if (isCpfActuallyValid) {
                             // CPF VÁLIDO!
-                            // 1. Modifica o estilo da HBox PAI
                             Node parentNode = cpfTextField.getParent();
                             if (parentNode instanceof HBox && lockedCpfHBoxStyle != null) {
                                 parentNode.setStyle(lockedCpfHBoxStyle);
                             }
 
-                            // 2. Torna o TextField não editável (isso continua)
+                            // 2. Torna o TextField não editável
                             cpfTextField.setEditable(false);
 
-                            // 3. Move o foco e tenta o login
+                            // 3. Move o foco e tenta o login (auto tab)
                             passwordTextField.requestFocus();
                             handleLogin();
                         }
-                        // Se isCpfActuallyValid for false, validateCpfField já mostrou o erro.
-                        // A HBox e o TextField não são alterados.
 
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -126,27 +114,18 @@ public class LoginPageController implements Initializable { // Modificado aqui
         });
     }
 
-    // ... (SEU MÉTODO validateCpfField e outros métodos como handleLogin, showError, hideError) ...
-    // Cole aqui a versão do validateCpfField que retorna true se o CPF for válido para login
-    // (formato OK e usuário existe no DB), e que fecha a conexão com o banco.
-
-    // Método para o botão Resetar ATUALIZADO
-
     @FXML
     public void handleResetButton(MouseEvent mouseEvent) {
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
-            // 1. Restaura o estilo original da HBox PAI
             Node parentNode = cpfTextField.getParent();
             if (parentNode instanceof HBox && originalCpfHBoxStyle != null) {
                 parentNode.setStyle(originalCpfHBoxStyle);
             }
 
-            // 2. Limpa e restaura o TextField
             cpfTextField.clear();
             cpfTextField.setStyle(originalCpfTextFieldStyle); // Restaura estilo original do TextField
             cpfTextField.setEditable(true);
 
-            // 3. Limpa campo de senha e erros
             passwordTextField.clear();
             hideError(lAccCpfError);
             hideError(lAccPasswordError);
@@ -174,11 +153,9 @@ public class LoginPageController implements Initializable { // Modificado aqui
         String cpf = cpfTextField.getText();
         String password = passwordTextField.getText();
 
-        // Se o CPF está preenchido e a senha vazia (pode ser o caso do auto-trigger)
         if(!cpf.isEmpty() && password.isEmpty() ){
-            if(validateCpfField(cpfTextField, lAccCpfError)){ // Valida CPF (e já define como não editável se passar)
+            if(validateCpfField(cpfTextField, lAccCpfError)){
                 System.out.println("CPF válido (chamado de handleLogin - senha vazia): " + cpf);
-                // cpfTextField.setEditable(false); // O listener já faz isso, mas pode ficar por redundância segura
             } else {
                 System.out.println("CPF inválido (chamado de handleLogin - senha vazia): " + cpf);
                 // Mensagem de erro já é mostrada por validateCpfField
@@ -186,7 +163,6 @@ public class LoginPageController implements Initializable { // Modificado aqui
         }
         // Se CPF e senha estão preenchidos (login normal)
         else if(!cpf.isEmpty() && !password.isEmpty()){
-            // Garante que o CPF ainda seja considerado válido aqui também
             boolean isCpfValid = validateCpfField(cpfTextField, lAccCpfError);
 
             if(isCpfValid && validatePasswordField(passwordTextField, lAccPasswordError)) {
@@ -199,7 +175,7 @@ public class LoginPageController implements Initializable { // Modificado aqui
 
                     if (user == null) {
                         System.out.println("Usuário não encontrado no DB.");
-                        showError(lAccCpfError, "Senha ou cpf incorretos"); // Mostra no CPF, poderia ser um label geral
+                        showError(lAccCpfError, "Senha ou cpf incorretos");
                         showError(lAccPasswordError, "Senha ou cpf incorretos");
                         return;
                     }
@@ -218,24 +194,18 @@ public class LoginPageController implements Initializable { // Modificado aqui
                     stage.show();
 
                 } catch (IOException | SQLException e) {
-                    // Em caso de erro de IO ou SQL, podemos mostrar uma mensagem mais genérica
                     showError(lAccCpfError, "Erro no sistema. Tente mais tarde.");
                     e.printStackTrace(); // Para debug no console
-                    // throw new RuntimeException(e); // Evite RuntimeException não tratada se possível
                 }
             } else {
                 System.out.println("CPF ou senha inválidos na tentativa de login: " + cpf + ", " + password);
-                // As mensagens de erro já devem ter sido mostradas por validateCpfField/validatePasswordField
             }
         }
+
         // Se CPF está vazio (validação primária)
-        else if (cpf.isEmpty()){ // else if para garantir que não entre aqui se cpf e senha estiverem preenchidos mas vazios
+        else if (cpf.isEmpty()){
             System.out.println("CPF vazio.");
             showError(lAccCpfError, "CPF é obrigatório.");
-        }
-        // Se a senha estiver vazia mas o CPF não (e não caiu no primeiro if - pode ser redundante)
-        else if (password.isEmpty() && !cpf.isEmpty()) {
-            showError(lAccPasswordError, "Senha é obrigatória.");
         }
     }
 
@@ -254,10 +224,8 @@ public class LoginPageController implements Initializable { // Modificado aqui
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
-                // Melhor tratar a exceção ou logar do que apenas lançar RuntimeException
                 e.printStackTrace();
                 showError(lAccCpfError, "Erro ao abrir tela de criação de conta.");
-                // throw new RuntimeException(e);
             }
         }
     }
@@ -271,7 +239,7 @@ public class LoginPageController implements Initializable { // Modificado aqui
                 return false;
             }
 
-            Connection userDbConnection = null; // Declare a conexão fora do try para o finally
+            Connection userDbConnection = null;
             try {
                 userDbConnection = new UserConnection().conectar();
                 UserDAOs userDAOs = new UserDAOs();
@@ -294,14 +262,13 @@ public class LoginPageController implements Initializable { // Modificado aqui
                 }
             }
         }
-        return false; // Retorna false se validateNullField falhar
+        return false;
     }
 
     private boolean validatePasswordField(PasswordField field, Label errorLabel) {
         if (validateNullField(field, errorLabel, "Senha é obrigatória.")) {
             String password = field.getText().trim();
-            // A sua mensagem de erro diz 6, mas o código original tinha password.length() < 8
-            if (password.length() < 6) { // Ajustado para 6 conforme sua mensagem de erro anterior
+            if (password.length() < 6) { // Verifica o tamanho mínimo
                 showError(errorLabel, "A senha deve ter pelo menos 6 caracteres.");
                 return false;
             } else {
@@ -336,7 +303,7 @@ public class LoginPageController implements Initializable { // Modificado aqui
         if (errorLabel != null) {
             errorLabel.setText(message);
             errorLabel.setVisible(true);
-            errorLabel.setManaged(true); // Garanta que está aqui
+            errorLabel.setManaged(true);
         }
     }
 
@@ -344,9 +311,8 @@ public class LoginPageController implements Initializable { // Modificado aqui
         if (errorLabel != null) {
             errorLabel.setText("");
             errorLabel.setVisible(false);
-            errorLabel.setManaged(false); // Garanta que está aqui
+            errorLabel.setManaged(false);
         }
     }
 
-    // Remova o método public void Initialize() se ele estiver vazio e não for o initialize do Initializable.
 }

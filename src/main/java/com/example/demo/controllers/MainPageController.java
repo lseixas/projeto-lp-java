@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.DAOs.UserDAOs;
-import com.example.demo.models.connection.UserConnection;
 import com.example.demo.models.entities.User;
 import com.example.demo.util.Global;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MainPageController {
@@ -72,14 +69,5 @@ public class MainPageController {
     }
 
     public void handleWithdrawButtonClick(MouseEvent mouseEvent) {
-
-        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
-            try {
-                redirectScreen("withdrawPage-view.fxml", (Node) mouseEvent.getSource());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 }
