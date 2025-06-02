@@ -12,6 +12,7 @@ import com.example.demo.models.connection.UserConnection;
 import com.example.demo.models.entities.User;
 
 import com.example.demo.util.Global;
+import com.example.demo.util.PasswordHasher;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent; // Import if using PasswordField
@@ -420,11 +421,13 @@ public class CreateAccountPageController {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localBirthDate = LocalDate.parse(cAccBirthField.getCharacters(), inputFormatter);
 
+        String hashedPassword = PasswordHasher.hash(cAccPasswordField.getText().trim());
+
         User NewUser = new User(
             cAccNameField.getText().trim(),
             cAccEmailField.getText().trim(),
             cAccCpfField.getText().trim(),
-            cAccPasswordField.getText().trim(),
+            hashedPassword,
             0.0f, // Default balance
             java.sql.Date.valueOf(localBirthDate)
         );

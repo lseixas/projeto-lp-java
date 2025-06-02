@@ -12,6 +12,7 @@ import com.example.demo.models.connection.UserConnection;
 import com.example.demo.models.entities.User;
 
 import com.example.demo.util.Global;
+import com.example.demo.util.PasswordHasher;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable; // Importe Initializable
@@ -151,7 +152,7 @@ public class LoginPageController implements Initializable { // Modificado aqui
 
     public void handleLogin() throws SQLException {
         String cpf = cpfTextField.getText();
-        String password = passwordTextField.getText();
+        String password = passwordTextField.getText().trim();
 
         if(!cpf.isEmpty() && password.isEmpty() ){
             if(validateCpfField(cpfTextField, lAccCpfError)){
@@ -180,8 +181,13 @@ public class LoginPageController implements Initializable { // Modificado aqui
                         return;
                     }
 
-                    // AQUI IRIA A LÓGICA DE VERIFICAÇÃO DA SENHA (user.getPassword().equals(password))
-                    // Por enquanto, se o usuário existe, assume-se que o login é bem-sucedido para navegação
+                    String hashedPassword = PasswordHasher.hash(password);
+
+                    if (!user.getSenha().equals(hashedPassword)) {
+                        System.out.println("Senha incorreta para o usuário: " + cpf);
+                        showError(lAccPasswordError, "Senha ou cpf incorretos");
+                        return;
+                    }
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                     Parent root = loader.load();
