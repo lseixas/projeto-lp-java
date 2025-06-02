@@ -4,10 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>
+        Projeto_LP_1Semestre_Leonardo_Enzo_Gustavo_Gustavo_Arthur
+    </name>
+
+    <description>
+        Projeto de JavaFX para a disciplina de Linguagem de Programação do 1º Semestre, desenvolvido por Leonardo, Enzo, Gustavo, Gustavo e Arthur.
+        Feito usando a biblioteca Javafx, com o objetivo de criar uma aplicação desktop interativa e moderna de um banco fictício, integrado com MySQL.
+    </description>
+
     <groupId>com.example</groupId>
     <artifactId>demo</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>demo</name>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -78,6 +86,11 @@
             <version>0.4.0</version>
         </dependency>
         <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.3.0</version>
+        </dependency>
+        <dependency>
             <groupId>eu.hansolo</groupId>
             <artifactId>tilesfx</artifactId>
             <version>11.48</version>
@@ -114,14 +127,14 @@
     </dependencies>
 
     <build>
+        <finalName>Projeto_LP_1Semestre_Leonardo_Enzo_Gustavo_Gustavo_Arthur-0.0.1</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>21</release>
-                </configuration>
+                    <release>21</release> </configuration>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -129,7 +142,6 @@
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>com.example.demo/com.example.demo.Application</mainClass>
@@ -142,6 +154,35 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.1</version> <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <mainClass>com.example.demo.MainLauncher</mainClass>
+                            </transformer>
+                        </transformers>
+                        <filters>
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
+                    </configuration>
+                </execution>
+            </executions>
             </plugin>
         </plugins>
     </build>
