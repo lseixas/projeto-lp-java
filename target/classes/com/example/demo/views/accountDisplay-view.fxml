@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Region?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.controllers.AccountDisplayController"
+      prefHeight="700.0" prefWidth="1000.0"
+      styleClass="root" stylesheets="@styles/accountDisplayStyle.css">
+
+    <!-- Top Bar Section -->
+    <fx:include source="reusable/topBar-reusable.fxml"/>
+
+    <!-- Main Content Area -->
+    <StackPane alignment="CENTER" VBox.vgrow="ALWAYS">
+        <VBox alignment="CENTER" spacing="20.0" styleClass="container" maxWidth="650.0">
+
+            <!-- Profile Header Section -->
+            <VBox alignment="CENTER" spacing="15.0">
+
+                <!-- Welcome Text -->
+                <Label text="👤 Meus Dados Pessoais" styleClass="page-header" />
+            </VBox>
+
+            <!-- Information Grid with Enhanced Layout -->
+            <GridPane hgap="15.0" vgap="20.0" alignment="CENTER" styleClass="info-grid">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180"/>
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+                </columnConstraints>
+
+                <!-- Nome Row -->
+                <VBox styleClass="info-row" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                    <GridPane hgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+                        </columnConstraints>
+                        <Label text="👨‍💼 Nome Completo:" styleClass="label-title"
+                               GridPane.columnIndex="0" />
+                        <Label fx:id="nomeLabel" text="João Silva Santos" styleClass="label-value"
+                               GridPane.columnIndex="1" />
+                    </GridPane>
+                </VBox>
+
+                <!-- Email Row -->
+                <VBox styleClass="info-row" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                    <GridPane hgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+                        </columnConstraints>
+                        <Label text="📧 Email:" styleClass="label-title"
+                               GridPane.columnIndex="0" />
+                        <Label fx:id="emailLabel" text="joao.silva@email.com" styleClass="label-value"
+                               GridPane.columnIndex="1" />
+                    </GridPane>
+                </VBox>
+
+                <!-- Data de Nascimento Row -->
+                <VBox styleClass="info-row" GridPane.rowIndex="2" GridPane.columnSpan="2">
+                    <GridPane hgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+                        </columnConstraints>
+                        <Label text="📅 Data de Nascimento:" styleClass="label-title"
+                               GridPane.columnIndex="0" />
+                        <Label fx:id="nascimentoLabel" text="15/03/1990" styleClass="label-value"
+                               GridPane.columnIndex="1" />
+                    </GridPane>
+                </VBox>
+
+                <!-- CPF Row -->
+                <VBox styleClass="info-row" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                    <GridPane hgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+                        </columnConstraints>
+                        <Label text="🆔 CPF:" styleClass="label-title"
+                               GridPane.columnIndex="0" />
+                        <Label fx:id="cpfLabel" text="123.456.789-00" styleClass="label-value"
+                               GridPane.columnIndex="1" />
+                    </GridPane>
+                </VBox>
+
+                <!-- Saldo Row -->
+                <VBox styleClass="info-row" GridPane.rowIndex="4" GridPane.columnSpan="2">
+                    <GridPane hgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" minWidth="180" prefWidth="180"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+                        </columnConstraints>
+                        <Label text="💸 Saldo:" styleClass="label-title"
+                               GridPane.columnIndex="0" />
+                        <Label fx:id="saldoLabel" text="0" styleClass="label-value"
+                               GridPane.columnIndex="1" />
+                    </GridPane>
+                </VBox>
+                <padding>
+                    <Insets top="15" bottom="15" left="10" right="10"/>
+                </padding>
+            </GridPane>
+
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER" spacing="20.0" styleClass="action-buttons">
+                <Button fx:id="editButton"
+                        text="✏️ Editar Dados"
+                        styleClass="yellow-primary-button"
+                        onAction="#handleEditAccount"/>
+                <Button fx:id="changePasswordButton"
+                        text="🔐 Alterar Senha"
+                        styleClass="blue-secondary-button"
+                        onAction="#handleChangePassword"/>
+            </HBox>
+
+        </VBox>
+    </StackPane>
+</VBox>

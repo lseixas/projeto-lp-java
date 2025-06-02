@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo.controllers.MainPageController"
+            prefHeight="650.0" prefWidth="750.0" stylesheets="@styles/mainPageStyle.css" styleClass="main-pane-background">
+
+    <center>
+        <GridPane fx:id="buttonsGrid" styleClass="buttons-grid" hgap="25" vgap="25" alignment="CENTER">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+            </rowConstraints>
+
+            <!-- Primeira linha com botões principais -->
+            <Button fx:id="accountButton" onMouseClicked="#handleAccountButtonClick"
+                    text="💰 Conta" prefHeight="160" prefWidth="220" styleClass="yellow-primary-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Button fx:id="depositButton" onMouseClicked="#handleDepositButtonClick"
+                    text="📈 Depositar" prefHeight="160" prefWidth="220" styleClass="blue-secondary-button"
+                    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Button fx:id="withdrawButton" onMouseClicked="#handleWithdrawButtonClick"
+                    text="💸 Sacar" prefHeight="160" prefWidth="220" styleClass="danger-button"
+                    GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+
+            <!-- Segunda linha -->
+            <Button text="📊 Relatórios" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Button text="🔄 Transferir" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Button text="⚙️ Configurações" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+
+            <!-- Terceira linha -->
+            <Button text="📞 Suporte" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Button text="🎯 Investimentos" prefHeight="160" prefWidth="220" styleClass="gold-accent-button"
+                    GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Button text="📱 Mobile" prefHeight="160" prefWidth="220" styleClass="standard-button"
+                    GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        </GridPane>
+    </center>
+</BorderPane>
