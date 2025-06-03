@@ -43,4 +43,12 @@ public class TopBarController {
         }
 
     }
+
+    public void handleExitButton(MouseEvent mouseEvent) {
+
+        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY){
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.close();
+        }
+    }
 }

@@ -321,4 +321,12 @@ public class LoginPageController implements Initializable { // Modificado aqui
         }
     }
 
+    @FXML
+    public void handleExitButton(MouseEvent mouseEvent) {
+
+        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY){
+            Stage stage = (Stage) cpfTextField.getScene().getWindow();
+            stage.close();
+        }
+    }
 }
