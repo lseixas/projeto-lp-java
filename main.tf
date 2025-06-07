@@ -1,13 +1,13 @@
 terraform {
 
-    cloud {
-      
-      organization = "ProjetoLP"
+  cloud {
 
-      workspaces {
-        name = "workspace-github-projeto-lp"
-      }
+    organization = "ProjetoLP"
+
+    workspaces {
+      name = "workspace-github-projeto-lp"
     }
+  }
 
   required_providers {
     aws = {
@@ -19,24 +19,6 @@ terraform {
   required_version = ">= 1.11.0"
 }
 
-data "aws_ami" "latest_amazon_linux" {
-    most_recent = true
-    owners = ["amazon"]
-
-    filter {
-        name = "name"
-        values = ["amzn2-ami-hvm-*-x86_64-gp2"]
-    }
-
-      filter {
-        name   = "virtualization-type"
-        values = ["hvm"]
-    }
-}
-
 provider "aws" {
-  region     = var.aws_region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  region = var.aws_region
 }
-

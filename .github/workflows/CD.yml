@@ -1,4 +1,32 @@
-name: CD.yml
+name: Deploy
+
 on:
+    push:
+        branches:
+            - dev
+            - infra-implementation
 
 jobs:
+    terraform:
+        name: Terraform Deploy
+        runs-on: ubunto-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                terraform_version: 1.12.0
+
+            - name: Terraform Init
+              run: terraform init
+
+            - name: Terraform Plan
+              run: terraform plan
+              
+            - name: Terraform Apply
+              env:
+                TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
+              run: terraform apply -auto-approve
