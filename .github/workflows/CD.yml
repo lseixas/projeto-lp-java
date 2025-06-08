@@ -21,11 +21,15 @@ jobs:
                 terraform_version: 1.12.0
 
             - name: Terraform Init
+              env:
+                TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
               run: terraform init
 
             - name: Terraform Plan
+              env: 
+                TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
               run: terraform plan
-              
+
             - name: Terraform Apply
               env:
                 TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
