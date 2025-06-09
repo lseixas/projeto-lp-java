@@ -24,6 +24,9 @@ jobs:
               with:
                 terraform_version: 1.12.0
 
+            - name: Terraform Format
+              run: terraform fmt
+
             - name: Terraform Init
               run: terraform init
 

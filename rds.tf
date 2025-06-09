@@ -3,7 +3,7 @@
 resource "aws_db_instance" "myrds" {
   engine              = "mysql"
   engine_version      = "8.0.41"
-  allocated_storage   = 1
+  allocated_storage   = 20
   storage_type        = "gp2"
   identifier          = "mydb"
   username            = "root"
