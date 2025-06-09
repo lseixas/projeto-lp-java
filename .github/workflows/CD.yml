@@ -11,6 +11,10 @@ jobs:
         name: Terraform Deploy
         runs-on: ubuntu-latest
 
+        env:
+            TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
+
+
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -21,16 +25,13 @@ jobs:
                 terraform_version: 1.12.0
 
             - name: Terraform Init
-              env:
-                TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
               run: terraform init
 
             - name: Terraform Plan
-              env: 
-                TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
               run: terraform plan
 
-            # - name: Terraform Apply
-            #   env:
-            #     TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
-            #   run: terraform apply -auto-approve
+            - name: Terraform Apply
+              run: terraform apply -auto-approve
+
+            - name: Terraform Output
+              run: terraform output -json
