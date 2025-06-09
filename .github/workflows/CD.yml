@@ -30,7 +30,7 @@ jobs:
                 TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
               run: terraform plan
 
-            - name: Terraform Apply
-              env:
-                TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
-              run: terraform apply -auto-approve
+            # - name: Terraform Apply
+            #   env:
+            #     TF_TOKEN_app_terraform_io: ${{ secrets.TFC_TOKEN }}
+            #   run: terraform apply -auto-approve
