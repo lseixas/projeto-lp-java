@@ -1,11 +1,10 @@
 package com.example.demo.controllers;
 
 import java.io.IOException;
-import java.net.URL; // Importe URL
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ResourceBundle; // Importe ResourceBundle
-import java.util.regex.Pattern;
+import java.util.ResourceBundle;
 
 import com.example.demo.models.DAOs.UserDAOs;
 import com.example.demo.models.connection.UserConnection;
@@ -15,11 +14,10 @@ import com.example.demo.util.Global;
 import com.example.demo.util.PasswordHasher;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable; // Importe Initializable
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button; // Importe Button se for referenciar resetButton
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -29,7 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class LoginPageController implements Initializable { // Modificado aqui
+public class LoginPageController implements Initializable {
 
     @FXML
     private TextField cpfTextField;
@@ -85,7 +83,7 @@ public class LoginPageController implements Initializable { // Modificado aqui
                         boolean isCpfActuallyValid = validateCpfField(cpfTextField, lAccCpfError);
 
                         if (isCpfActuallyValid) {
-                            // CPF VÁLIDO!
+                            // CPF VÁLIDO
                             Node parentNode = cpfTextField.getParent();
                             if (parentNode instanceof HBox && lockedCpfHBoxStyle != null) {
                                 parentNode.setStyle(lockedCpfHBoxStyle);
@@ -137,7 +135,6 @@ public class LoginPageController implements Initializable { // Modificado aqui
     }
 
     public void handleKeyPressed(KeyEvent keyEvent) throws SQLException {
-
         if(keyEvent.getCode().toString().equals("ENTER")){
             handleLogin();
         }
@@ -148,7 +145,6 @@ public class LoginPageController implements Initializable { // Modificado aqui
             handleLogin();
         }
     }
-
 
     public void handleLogin() throws SQLException {
         String cpf = cpfTextField.getText();
@@ -207,7 +203,6 @@ public class LoginPageController implements Initializable { // Modificado aqui
                 System.out.println("CPF ou senha inválidos na tentativa de login: " + cpf + ", " + password);
             }
         }
-
         // Se CPF está vazio (validação primária)
         else if (cpf.isEmpty()){
             System.out.println("CPF vazio.");
@@ -235,7 +230,6 @@ public class LoginPageController implements Initializable { // Modificado aqui
             }
         }
     }
-
 
     private boolean validateCpfField(TextField field, Label errorLabel) throws SQLException {
         if (validateNullField(field, errorLabel, "CPF é obrigatório.")) { // Verifica se está vazio
@@ -323,7 +317,6 @@ public class LoginPageController implements Initializable { // Modificado aqui
 
     @FXML
     public void handleExitButton(MouseEvent mouseEvent) {
-
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY){
             Stage stage = (Stage) cpfTextField.getScene().getWindow();
             stage.close();

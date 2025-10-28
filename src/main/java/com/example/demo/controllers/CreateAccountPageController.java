@@ -13,15 +13,12 @@ import com.example.demo.models.entities.User;
 
 import com.example.demo.util.Global;
 import com.example.demo.util.PasswordHasher;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent; // Import if using PasswordField
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -70,7 +67,7 @@ public class CreateAccountPageController {
 
     }
 
-    //logic for birthdate formatting (listener)
+    //logica para data de nascimento (listener)
 
     UnaryOperator<TextFormatter.Change> birthDateFilter = change -> {
         String currentTextInField = ((TextInputControl) change.getControl()).getText();
@@ -79,7 +76,7 @@ public class CreateAccountPageController {
         String digitsOnly = proposedTextIfNoFormatting.replaceAll("[^\\d]", "");
 
         if (digitsOnly.length() > 8) {
-            digitsOnly = digitsOnly.substring(0, 8); // Limit to 8 digits (DDMMYYYY)
+            digitsOnly = digitsOnly.substring(0, 8); // Limita para 8 digitos (DDMMYYYY)
         }
 
         StringBuilder idealFormattedTextBuilder = new StringBuilder();
@@ -92,14 +89,14 @@ public class CreateAccountPageController {
         if (len > 4) idealFormattedTextBuilder.append(digitsOnly.substring(4, Math.min(len, 8)));// YYYY
 
         String idealFormattedText = idealFormattedTextBuilder.toString();
-        String textToSet = idealFormattedText; // By default, use the fully formatted version
-        int newCaretPosition = idealFormattedText.length(); // Default caret to end
+        String textToSet = idealFormattedText;
+        int newCaretPosition = idealFormattedText.length();
 
-        //logic for back-space pressed
+        //logica para back-space pressionado
 
         if (change.isDeleted()) {
             if (idealFormattedText.endsWith("/") &&
-                    !proposedTextIfNoFormatting.endsWith("/") && // Ensure the proposed text is "clean"
+                    !proposedTextIfNoFormatting.endsWith("/") && // Certeza que o usuário não digitou o separador
                     proposedTextIfNoFormatting.equals(idealFormattedText.substring(0, idealFormattedText.length() - 1))) {
 
                 textToSet = proposedTextIfNoFormatting;
@@ -108,33 +105,33 @@ public class CreateAccountPageController {
                 newCaretPosition = Math.min(change.getRangeStart(), textToSet.length());
             }
         } else if (change.isAdded()) {
-            if (len == 2 && textToSet.endsWith("/")) newCaretPosition = 3;       // After DD/
-            else if (len == 4 && textToSet.endsWith("/")) newCaretPosition = 6;  // After DD/MM/
-            else if (len == 8 && textToSet.length() == 10) newCaretPosition = 10; // End of DD/MM/YYYY
+            if (len == 2 && textToSet.endsWith("/")) newCaretPosition = 3;       // Depois de DD/
+            else if (len == 4 && textToSet.endsWith("/")) newCaretPosition = 6;  // Depois de DD/MM/
+            else if (len == 8 && textToSet.length() == 10) newCaretPosition = 10; // Termina em DD/MM/YYYY
         }
 
 
         change.setText(textToSet);
-        change.setRange(0, currentTextInField.length()); // Replace the entire current text
-        change.selectRange(newCaretPosition, newCaretPosition); // Set the new caret position
+        change.setRange(0, currentTextInField.length());
+        change.selectRange(newCaretPosition, newCaretPosition);
 
         return change;
     };
 
-    //logic for CPF formatting (listener)
+    //logica para formatação do cpf (listener)
 
     UnaryOperator<TextFormatter.Change> cpfFilter = change -> {
         String currentTextInField = ((TextInputControl) change.getControl()).getText();
         String proposedTextIfNoFormatting = change.getControlNewText(); // What TextField thinks text will be
 
-        // --- Debugging Output - VERY IMPORTANT! ---
+        // saida na depuração
         System.out.println("--- CPF Filter ---");
         System.out.println("isAdded: " + change.isAdded() + ", isDeleted: " + change.isDeleted() + ", isReplaced: " + change.isReplaced());
         System.out.println("Range: " + change.getRangeStart() + "-" + change.getRangeEnd() + ", Text: '" + change.getText() + "'");
         System.out.println("Caret Pos: " + change.getCaretPosition() + ", Anchor: " + change.getAnchor());
         System.out.println("Current Field Text: '" + currentTextInField + "'");
         System.out.println("Proposed Text If No Formatting: '" + proposedTextIfNoFormatting + "'");
-        // --- End Debugging Output ---
+        // termina saida depuração
 
         String digitsOnly = proposedTextIfNoFormatting.replaceAll("[^\\d]", "");
 
@@ -145,7 +142,7 @@ public class CreateAccountPageController {
         StringBuilder idealFormattedTextBuilder = new StringBuilder();
         int len = digitsOnly.length();
 
-        // Build the ideal formatted string based on digitsOnly
+        // CPF no formato 999.999.999-99
         if (len > 0) idealFormattedTextBuilder.append(digitsOnly.substring(0, Math.min(len, 3)));
         if (len >= 3) {
             idealFormattedTextBuilder.append(".");
@@ -164,7 +161,7 @@ public class CreateAccountPageController {
         String textToSet = idealFormattedText;
         int newCaretPosition = idealFormattedText.length();
 
-        //logic for back-space pressed
+        //logica para back-space pressionado
 
         if (!change.isAdded() && !change.isDeleted() && !change.isReplaced() &&
                 change.getText().isEmpty() &&
@@ -195,8 +192,8 @@ public class CreateAccountPageController {
         }
 
         change.setText(textToSet);
-        change.setRange(0, currentTextInField.length()); // Replace the entire current text
-        change.selectRange(newCaretPosition, newCaretPosition); // Set the new caret position
+        change.setRange(0, currentTextInField.length());
+        change.selectRange(newCaretPosition, newCaretPosition);
 
         System.out.println("Final text set: '" + textToSet + "', caret: " + newCaretPosition);
         System.out.println("--- CPF Filter End ---");
@@ -216,7 +213,7 @@ public class CreateAccountPageController {
         }
     }
 
-    @FXML // Add this if you added the button in FXML
+    @FXML
     private void submitForm(ActionEvent event) throws SQLException, IOException {
         System.out.println("Submit button pressed");
         validateAndProceed();
@@ -225,7 +222,7 @@ public class CreateAccountPageController {
     private void validateAndProceed() throws SQLException, IOException {
         boolean allFieldsValid = true;
 
-        // Validate each field
+        // Valida cada campo
         allFieldsValid &= validateNameField(cAccNameField, cAccNameError);
         allFieldsValid &= validateEmailField(cAccEmailField, cAccEmailError);
         allFieldsValid &= validateBirthDateField(cAccBirthField, cAccBirthError);
@@ -296,7 +293,7 @@ public class CreateAccountPageController {
     }
 
     private boolean validateBirthDateField(TextField field, Label errorLabel) {
-        if (validateNullField(field, errorLabel, "Data de nascimento é obrigatória.")) { // Pass the correct errorLabel
+        if (validateNullField(field, errorLabel, "Data de nascimento é obrigatória.")) { // Passa o label de erro correto
             String birthDate = field.getText().trim();
             if (!birthDate.matches("\\d{2}/\\d{2}/\\d{4}")) {
                 showError(errorLabel, "Data inválida. Use DD/MM/YYYY e certifique-se que a data é completa.");
@@ -312,7 +309,7 @@ public class CreateAccountPageController {
     private boolean validateCpfField(TextField field, Label errorLabel) throws SQLException {
         if(validateNullField(field, errorLabel, "CPF é obrigatório.")) {
             String cpf = field.getText().trim();
-            if (!cpf.matches("\\d{3}.\\d{3}.\\d{3}-\\d{2}")) { // CPF must be 11 digits
+            if (!cpf.matches("\\d{3}.\\d{3}.\\d{3}-\\d{2}")) { // CPF deve ter 11 digitos
                 showError(errorLabel, "CPF inválido.");
                 return false;
             }
@@ -392,7 +389,7 @@ public class CreateAccountPageController {
 
     private void hideError(Label errorLabel) {
         if (errorLabel != null) {
-            errorLabel.setText(""); // Clear the text
+            errorLabel.setText(""); // Limpa texto de erro
             errorLabel.setVisible(false);
         }
     }
@@ -414,6 +411,7 @@ public class CreateAccountPageController {
     }
 
 
+    @SuppressWarnings("exports")
     public User handleLogin() throws SQLException {
         Connection userDbConnection = new UserConnection().conectar();
         UserDAOs userDAOs = new UserDAOs();
@@ -428,7 +426,7 @@ public class CreateAccountPageController {
             cAccEmailField.getText().trim(),
             cAccCpfField.getText().trim(),
             hashedPassword,
-            0.0f, // Default balance
+            0.0f, // Saldo inicial padrão
             java.sql.Date.valueOf(localBirthDate)
         );
 
@@ -438,7 +436,7 @@ public class CreateAccountPageController {
             User createdUser = userDAOs.createUser(userDbConnection, NewUser);
             if(createdUser != null) {
                 System.out.println("Usuário criado com sucesso: " + createdUser);
-                return createdUser; // Return the created user
+                return createdUser; // Returna o usuário criado
             } else {
                 System.out.println("Falha ao criar usuário.");
                 return null;
@@ -454,7 +452,7 @@ public class CreateAccountPageController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/loginPage-view.fxml"));
             Parent root = loader.load();
 
-            // get current stage from any node
+            // coleta o stage atual
             Stage stage = (Stage) cAccCpfField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);

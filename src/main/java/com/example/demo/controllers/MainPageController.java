@@ -18,16 +18,14 @@ public class MainPageController {
     static User loggedUser;
 
     public void initialize() throws SQLException {
-
         loggedUser = Global.getLoggedInUser();
-
     }
 
     public void redirectScreen(String viewFileName, Node randomNode) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/" + viewFileName));
         Parent root = loader.load();
 
-        // get current stage from any node
+        // pega a stage atual
         Stage stage = (Stage) randomNode.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -35,12 +33,10 @@ public class MainPageController {
     }
 
     public void handleAccountButtonClick(MouseEvent mouseEvent) {
-
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/accountDisplay-view.fxml"));
                 Parent root = loader.load();
-
                 Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
@@ -51,7 +47,6 @@ public class MainPageController {
         }
     }
     public void handleDepositButtonClick(MouseEvent mouseEvent) {
-
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/depositPage-view.fxml"));
@@ -65,9 +60,5 @@ public class MainPageController {
                 e.printStackTrace();
             }
         }
-
-    }
-
-    public void handleWithdrawButtonClick(MouseEvent mouseEvent) {
     }
 }

@@ -2,9 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.entities.User;
 import com.example.demo.util.Global;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
 
@@ -29,11 +27,4 @@ public class AccountDisplayController {
         saldoLabel.setText(String.valueOf(loggedUser.getSaldo()));
 
     }
-
-    public void handleEditAccount(ActionEvent actionEvent) {
-    }
-
-    public void handleChangePassword(ActionEvent actionEvent) {
-    }
-
 }
