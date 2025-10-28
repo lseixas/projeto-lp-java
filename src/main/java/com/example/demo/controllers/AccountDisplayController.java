@@ -7,8 +7,6 @@ import javafx.scene.control.Label;
 import java.sql.SQLException;
 
 public class AccountDisplayController {
-
-
     public Label nomeLabel;
     public Label cpfLabel;
     public Label emailLabel;

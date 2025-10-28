@@ -22,7 +22,6 @@
             styleClass="back-button"
             onMouseClicked="#handleBackToHome"/>
 
-
     <!-- Centered Logo -->
     <StackPane alignment="CENTER" prefWidth="0" HBox.hgrow="NEVER">
         <ImageView fx:id="logoImageView"

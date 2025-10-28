@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.StackPane?>
-
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+
 <StackPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #A3C4EB;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.CreateAccountPageController">
     <HBox alignment="CENTER">
 

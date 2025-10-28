@@ -10,7 +10,7 @@ public class UserConnection {
     private static final String PORT = "3306";
     private static final String DB_NAME = "banco_cvetti_users";
     private static final String USER = "root";
-    private static final String PASSWORD = "Kleiton47@";
+    private static final String PASSWORD = "root";
 
     private static final String SERVER_CONNECTION_URL = "jdbc:mysql://" + HOST + ":" + PORT +
             "?user=" + USER + "&password=" + PASSWORD +

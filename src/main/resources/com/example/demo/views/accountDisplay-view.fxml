@@ -125,7 +125,6 @@
                         styleClass="blue-secondary-button"
                         onAction="#handleChangePassword"/>
             </HBox>
-
         </VBox>
     </StackPane>
 </VBox>

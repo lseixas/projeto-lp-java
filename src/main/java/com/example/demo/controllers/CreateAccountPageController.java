@@ -54,17 +54,14 @@ public class CreateAccountPageController {
     }
 
     public void initialize() {
-
         bindManagedToVisible(cAccNameError);
         bindManagedToVisible(cAccEmailError);
         bindManagedToVisible(cAccBirthError);
         bindManagedToVisible(cAccCpfError);
         bindManagedToVisible(cAccPasswordError);
         bindManagedToVisible(cAccConfirmPasswordError);
-
         cAccBirthField.setTextFormatter(new TextFormatter<>(birthDateFilter));
         cAccCpfField.setTextFormatter(new TextFormatter<>(cpfFilter));
-
     }
 
     //logica para data de nascimento (listener)
@@ -72,22 +69,17 @@ public class CreateAccountPageController {
     UnaryOperator<TextFormatter.Change> birthDateFilter = change -> {
         String currentTextInField = ((TextInputControl) change.getControl()).getText();
         String proposedTextIfNoFormatting = change.getControlNewText();
-
         String digitsOnly = proposedTextIfNoFormatting.replaceAll("[^\\d]", "");
-
         if (digitsOnly.length() > 8) {
             digitsOnly = digitsOnly.substring(0, 8); // Limita para 8 digitos (DDMMYYYY)
         }
-
         StringBuilder idealFormattedTextBuilder = new StringBuilder();
         int len = digitsOnly.length();
-
         if (len > 0) idealFormattedTextBuilder.append(digitsOnly.substring(0, Math.min(len, 2))); // DD
         if (len >= 2) idealFormattedTextBuilder.append("/");                                       // DD/
         if (len > 2) idealFormattedTextBuilder.append(digitsOnly.substring(2, Math.min(len, 4)));// MM
         if (len >= 4) idealFormattedTextBuilder.append("/");                                       // DD/MM/
         if (len > 4) idealFormattedTextBuilder.append(digitsOnly.substring(4, Math.min(len, 8)));// YYYY
-
         String idealFormattedText = idealFormattedTextBuilder.toString();
         String textToSet = idealFormattedText;
         int newCaretPosition = idealFormattedText.length();
@@ -109,12 +101,9 @@ public class CreateAccountPageController {
             else if (len == 4 && textToSet.endsWith("/")) newCaretPosition = 6;  // Depois de DD/MM/
             else if (len == 8 && textToSet.length() == 10) newCaretPosition = 10; // Termina em DD/MM/YYYY
         }
-
-
         change.setText(textToSet);
         change.setRange(0, currentTextInField.length());
         change.selectRange(newCaretPosition, newCaretPosition);
-
         return change;
     };
 
@@ -171,14 +160,12 @@ public class CreateAccountPageController {
 
             char lastCharOfCurrentText = currentTextInField.charAt(currentTextInField.length() - 1);
             int numDigitsInCurrentText = currentTextInField.replaceAll("[^\\d]","").length();
-
             boolean wasTrailingSeparatorWeCareAbout = false;
             if (lastCharOfCurrentText == '.' && (numDigitsInCurrentText == 3 || numDigitsInCurrentText == 6)) {
                 wasTrailingSeparatorWeCareAbout = true;
             } else if (lastCharOfCurrentText == '-' && numDigitsInCurrentText == 9) {
                 wasTrailingSeparatorWeCareAbout = true;
             }
-
             if (wasTrailingSeparatorWeCareAbout) {
                 textToSet = currentTextInField.substring(0, currentTextInField.length() - 1);
                 newCaretPosition = textToSet.length();
@@ -190,7 +177,6 @@ public class CreateAccountPageController {
         } else if (change.isAdded()) {
             System.out.println("  Addition. Caret at: " + newCaretPosition);
         }
-
         change.setText(textToSet);
         change.setRange(0, currentTextInField.length());
         change.selectRange(newCaretPosition, newCaretPosition);
@@ -232,7 +218,6 @@ public class CreateAccountPageController {
 
         if (allFieldsValid) {
             System.out.println("Formulário válido. Prosseguindo com a criação da conta...");
-
             if (handleLogin() != null) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
                 Parent root = loader.load();
@@ -410,17 +395,13 @@ public class CreateAccountPageController {
         hideError(cAccConfirmPasswordError);
     }
 
-
     @SuppressWarnings("exports")
     public User handleLogin() throws SQLException {
         Connection userDbConnection = new UserConnection().conectar();
         UserDAOs userDAOs = new UserDAOs();
-
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localBirthDate = LocalDate.parse(cAccBirthField.getCharacters(), inputFormatter);
-
         String hashedPassword = PasswordHasher.hash(cAccPasswordField.getText().trim());
-
         User NewUser = new User(
             cAccNameField.getText().trim(),
             cAccEmailField.getText().trim(),
@@ -429,9 +410,7 @@ public class CreateAccountPageController {
             0.0f, // Saldo inicial padrão
             java.sql.Date.valueOf(localBirthDate)
         );
-
         System.out.println(NewUser.toString());
-
         try {
             User createdUser = userDAOs.createUser(userDbConnection, NewUser);
             if(createdUser != null) {
@@ -451,7 +430,6 @@ public class CreateAccountPageController {
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/loginPage-view.fxml"));
             Parent root = loader.load();
-
             // coleta o stage atual
             Stage stage = (Stage) cAccCpfField.getScene().getWindow();
             Scene scene = new Scene(root);
