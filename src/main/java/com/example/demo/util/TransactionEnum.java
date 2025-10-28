@@ -14,5 +14,4 @@ public enum TransactionEnum {
     public String getDescription() {
         return description;
     }
-
 }

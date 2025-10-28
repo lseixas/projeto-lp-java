@@ -6,25 +6,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
 
 public class UserDAOs {
-
     public User createUser(Connection conn, User user) throws SQLException {
         String sql = "INSERT INTO `banco_cvetti_users`.`usuario` (`id`, `nome`, `email`, `cpf`, `senha`, `saldo`, `nascimento`) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try (PreparedStatement stm = conn.prepareStatement(sql)) {
 
-            stm.setString(1, user.getUserId().toString()); // Set the user ID
+            stm.setString(1, user.getUserId().toString());
             stm.setString(2, user.getNome());
             stm.setString(3, user.getEmail());
             stm.setString(4, user.getCpf());
             stm.setString(5, user.getSenha());
             stm.setFloat(6, user.getSaldo());
-            stm.setDate(7, user.getNascimento()); // Assuming getBirthDate() returns java.sql.Date
+            stm.setDate(7, user.getNascimento());
             int rowsAffected = stm.executeUpdate();
 
             if (rowsAffected > 0) {
-                return user; // Return the created user
+                return user; // Retorna o usuário criado
             } else {
                 return null;
             }
@@ -37,7 +35,6 @@ public class UserDAOs {
             stm.setString(1, cpf);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                UUID userId = UUID.fromString(rs.getString("id"));
                 String nome = rs.getString("nome");
                 String email = rs.getString("email");
                 String senha = rs.getString("senha");
@@ -59,7 +56,6 @@ public class UserDAOs {
             stm.setString(1, email);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                UUID userId = UUID.fromString(rs.getString("id"));
                 String nome = rs.getString("nome");
                 String cpf = rs.getString("cpf");
                 String senha = rs.getString("senha");
@@ -89,7 +85,7 @@ public class UserDAOs {
                         user.getEmail(),
                         user.getCpf(),
                         user.getSenha(),
-                        (float) newSaldo + user.getSaldo(), // Update the saldo to the new value
+                        (float) newSaldo + user.getSaldo(), // Atualiza o saldo para novo valor
                         user.getNascimento()
                 );
             } else {

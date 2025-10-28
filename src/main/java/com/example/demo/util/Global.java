@@ -17,9 +17,7 @@ public class Global {
     public static void setLoggedInUser(String cpf) throws SQLException {
         Connection conn = new UserConnection().conectar();
         UserDAOs userDAOs = new UserDAOs();
-
         User user = userDAOs.getUserByCpf(conn, cpf);
-
         loggedInCpf = cpf;
         loggedInUser = user;
     }
@@ -27,7 +25,6 @@ public class Global {
     public static void refreshLoggedInUser() throws SQLException {
         Connection conn = new UserConnection().conectar();
         UserDAOs userDAOs = new UserDAOs();
-
         loggedInUser = userDAOs.getUserByCpf(conn, loggedInCpf);
     }
 

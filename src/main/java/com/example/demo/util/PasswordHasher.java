@@ -4,7 +4,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordHasher {
-
     public static String hash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

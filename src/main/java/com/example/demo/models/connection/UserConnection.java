@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserConnection {
-
     private static final String HOST = "localhost";
     private static final String PORT = "3306";
     private static final String DB_NAME = "banco_cvetti_users";
@@ -16,15 +15,12 @@ public class UserConnection {
     private static final String SERVER_CONNECTION_URL = "jdbc:mysql://" + HOST + ":" + PORT +
             "?user=" + USER + "&password=" + PASSWORD +
             "&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-
     private static final String DB_CONNECTION_URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME +
             "?user=" + USER + "&password=" + PASSWORD +
             "&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-
     private static final String CREATE_DATABASE_SQL =
             "CREATE DATABASE IF NOT EXISTS " + DB_NAME +
                     " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
-
     private static final String CREATE_TABLE_USUARIO_SQL =
             "CREATE TABLE IF NOT EXISTS usuario (" +
                     "    id VARCHAR(36) NOT NULL PRIMARY KEY, " +
@@ -35,7 +31,6 @@ public class UserConnection {
                     "    saldo DECIMAL(15, 2) DEFAULT 0.00, " +
                     "    nascimento DATE" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -70,7 +65,6 @@ public class UserConnection {
             System.err.println("Erro ao verificar/criar a tabela 'usuario' no banco '" + DB_NAME + "': " + e.getMessage());
             throw new SQLException("Falha ao garantir a existência da tabela 'usuario' no banco '" + DB_NAME + "'.", e);
         }
-
         return dbConnection;
     }
 }

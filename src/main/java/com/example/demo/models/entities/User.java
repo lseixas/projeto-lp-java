@@ -1,5 +1,4 @@
 package com.example.demo.models.entities;
-
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.UUID;
@@ -7,7 +6,6 @@ import java.util.UUID;
 public class User {
 
     public static String identifier = "User";
-
     private UUID userId;
     private String nome;
     private String email;
@@ -95,30 +93,4 @@ public class User {
                 ", nascimento=" + nascimento +
                 '}';
     }
-
-    public boolean validateName(String name){
-        //validate name logic
-        return true;
-    }
-
-    public boolean validadeCpf(String cpf){
-        //validate cpf logic
-        return true;
-    }
-
-    public boolean validateEmail(String email){
-        //validate email logic
-        return true;
-    }
-
-    public boolean validatePassword(String password){
-        //validate password logic
-        return true;
-    }
-
-    public boolean validateBalance(float balance){
-        //validate balance logic
-        return true;
-    }
-
 }

@@ -7,7 +7,6 @@ import com.example.demo.util.Global;
 import com.example.demo.util.PaymentEnum;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -39,7 +38,6 @@ public class DepositPageController {
     public Label depositPaymentMethodError;
 
     public void initialize() throws SQLException {
-        // Initialize the payment method combo box with available payment methods
 
         loggedUser = Global.getLoggedInUser();
 
@@ -64,26 +62,17 @@ public class DepositPageController {
             paymentMethodCombo.getItems().add(paymentType.getDescription());
         }
 
-        // Set a default selection if needed
         paymentMethodCombo.getSelectionModel().selectFirst();
 
     }
 
-    public void handleCancel(ActionEvent actionEvent) {
-        
-    }
-
     public void handleConfirmDeposit(MouseEvent mouseEvent) throws SQLException {
-
         boolean allFieldsValid = true;
 
         if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
-
             allFieldsValid &= validateSaldo(amountField, depositAmountFieldError);
             allFieldsValid &= validatePaymentMethod(paymentMethodCombo.getValue(), depositPaymentMethodError);
-
             if (allFieldsValid) {
-
                 String amountText = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR")).format(
                         Double.parseDouble(amountField.getText())
                 );
@@ -109,16 +98,11 @@ public class DepositPageController {
                 else {
                     System.out.println("Erro ao atualizar o saldo do usuário.");
                 }
-
-
             }
-
         }
-
     }
 
     public boolean validateSaldo(TextField field, Label errorLabel) {
-
         String saldo = field.getText().trim();
         if (saldo == null || saldo.isEmpty()) {
             showError(errorLabel, "Valor do depósito é obrigatório.");
@@ -153,7 +137,7 @@ public class DepositPageController {
 
     private void hideError(Label errorLabel) {
         if (errorLabel != null) {
-            errorLabel.setText(""); // Clear the text
+            errorLabel.setText(""); // Limpa texto de erro
             errorLabel.setVisible(false);
             errorLabel.setManaged(false);
         }
@@ -165,7 +149,7 @@ public class DepositPageController {
             String balanceText = amountField.getText();
 
             if (balanceText == null || balanceText.isEmpty()) {
-                balanceText = "0.00"; // Default to 0 if the field is empty
+                balanceText = "0.00"; // Valor padrão se o campo estiver vazio
             }
 
             double addedAmount = 0;
