@@ -1,6 +1,7 @@
 module com.example.demo {
     requires javafx.fxml;
     requires javafx.web;
+    requires transitive java.desktop;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;

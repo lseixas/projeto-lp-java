@@ -2,63 +2,73 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.entities.User;
 import com.example.demo.util.Global;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
-public class MainPageController {
+public class MainPageController extends JFrame {
 
-    static User loggedUser;
+    private static User loggedUser;
+
+    private JButton accountButton;
+    private JButton depositButton;
+
+    public MainPageController() {
+        setTitle("Banco CVETTI - Main Page");
+        setSize(500, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        try {
+            initialize();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar usuário: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Botão Conta
+        accountButton = new JButton("Minha Conta");
+        accountButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleAccountButtonClick();
+            }
+        });
+
+        // Botão Depósito
+        depositButton = new JButton("Depósito");
+        depositButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleDepositButtonClick();
+            }
+        });
+
+        add(new JLabel("Bem-vindo, " + (loggedUser != null ? loggedUser.getNome() : "Usuário")));
+        add(accountButton);
+        add(depositButton);
+
+        setVisible(true);
+    }
 
     public void initialize() throws SQLException {
         loggedUser = Global.getLoggedInUser();
     }
 
-    public void redirectScreen(String viewFileName, Node randomNode) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/" + viewFileName));
-        Parent root = loader.load();
-
-        // pega a stage atual
-        Stage stage = (Stage) randomNode.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    private void handleAccountButtonClick() {
+        // Fecha a tela atual e abre a tela de exibição de conta
+        dispose();
+        new AccountDisplayController();
     }
 
-    public void handleAccountButtonClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/accountDisplay-view.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public void handleDepositButtonClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/depositPage-view.fxml"));
-                Parent root = loader.load();
-
-                Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    private void handleDepositButtonClick() {
+        // Fecha a tela atual e abre a tela de depósito
+        dispose();
+        new DepositPageController();
     }
 }

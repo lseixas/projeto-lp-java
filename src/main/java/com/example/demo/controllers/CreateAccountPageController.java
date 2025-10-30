@@ -1,440 +1,249 @@
 package com.example.demo.controllers;
 
-import java.io.IOException;
+import com.example.demo.models.DAOs.UserDAOs;
+import com.example.demo.models.connection.UserConnection;
+import com.example.demo.models.entities.User;
+import com.example.demo.util.Global;
+import com.example.demo.util.PasswordHasher;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.function.UnaryOperator;
 
-import com.example.demo.models.DAOs.UserDAOs;
-import com.example.demo.models.connection.UserConnection;
-import com.example.demo.models.entities.User;
+public class CreateAccountPageController extends JFrame {
 
-import com.example.demo.util.Global;
-import com.example.demo.util.PasswordHasher;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+    private JTextField nameField, emailField, birthField, cpfField;
+    private JPasswordField passwordField, confirmPasswordField;
+    private JLabel nameError, emailError, birthError, cpfError, passwordError, confirmError;
 
-public class CreateAccountPageController {
+    public CreateAccountPageController() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.anchor = GridBagConstraints.WEST;
 
-    @FXML public TextField cAccNameField;
-    @FXML private Label cAccNameError; // Error label for name
+        JLabel title = new JLabel("🧾 Criar Conta");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(title, gbc);
 
-    @FXML public TextField cAccEmailField;
-    @FXML private Label cAccEmailError; // Error label for email
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
 
-    @FXML public TextField cAccBirthField;
-    @FXML private Label cAccBirthError; // Error label for birthdate
+        // Nome
+        gbc.gridy++;
+        add(new JLabel("👨‍💼 Nome Completo:"), gbc);
+        nameField = new JTextField(20);
+        gbc.gridx = 1;
+        add(nameField, gbc);
+        gbc.gridx = 0; gbc.gridy++;
+        nameError = errorLabel();
+        gbc.gridwidth = 2;
+        add(nameError, gbc);
+        gbc.gridwidth = 1;
 
-    @FXML public TextField cAccCpfField;
-    @FXML private Label cAccCpfError; // Error label for CPF
+        // Email
+        gbc.gridy++;
+        add(new JLabel("📧 Email:"), gbc);
+        emailField = new JTextField(20);
+        gbc.gridx = 1;
+        add(emailField, gbc);
+        gbc.gridx = 0; gbc.gridy++;
+        emailError = errorLabel();
+        gbc.gridwidth = 2;
+        add(emailError, gbc);
+        gbc.gridwidth = 1;
 
-    @FXML public PasswordField cAccPasswordField;
-    @FXML private Label cAccPasswordError; // Error label for password
+        // Data de Nascimento
+        gbc.gridy++;
+        add(new JLabel("📅 Data de Nascimento (DD/MM/YYYY):"), gbc);
+        birthField = new JTextField(20);
+        gbc.gridx = 1;
+        add(birthField, gbc);
+        gbc.gridx = 0; gbc.gridy++;
+        birthError = errorLabel();
+        gbc.gridwidth = 2;
+        add(birthError, gbc);
+        gbc.gridwidth = 1;
 
-    @FXML public PasswordField cAccConfirmPasswordField;
-    @FXML private Label cAccConfirmPasswordError; // Error label for confirm password
+        // CPF
+        gbc.gridy++;
+        add(new JLabel("🆔 CPF:"), gbc);
+        cpfField = new JTextField(20);
+        gbc.gridx = 1;
+        add(cpfField, gbc);
+        gbc.gridx = 0; gbc.gridy++;
+        cpfError = errorLabel();
+        gbc.gridwidth = 2;
+        add(cpfError, gbc);
+        gbc.gridwidth = 1;
 
-    public void initData(String cpfFromLastPage){
-        if (cAccCpfField.getText().isEmpty()) {
-            cAccCpfField.setText(cpfFromLastPage);
-            System.out.println("CPF from last page: " + cpfFromLastPage);
-        } else {
-            System.out.println("CPF field already filled: " + cAccCpfField.getText());
-        }
+        // Senha
+        gbc.gridy++;
+        add(new JLabel("🔐 Senha:"), gbc);
+        passwordField = new JPasswordField(20);
+        gbc.gridx = 1;
+        add(passwordField, gbc);
+        gbc.gridx = 0; gbc.gridy++;
+        passwordError = errorLabel();
+        gbc.gridwidth = 2;
+        add(passwordError, gbc);
+        gbc.gridwidth = 1;
+
+        // Confirmar Senha
+        gbc.gridy++;
+        add(new JLabel("🔐 Confirmar Senha:"), gbc);
+        confirmPasswordField = new JPasswordField(20);
+        gbc.gridx = 1;
+        add(confirmPasswordField, gbc);
+        gbc.gridx = 0; gbc.gridy++;
+        confirmError = errorLabel();
+        gbc.gridwidth = 2;
+        add(confirmError, gbc);
+        gbc.gridwidth = 1;
+
+        // Botão Criar Conta
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        JButton createButton = new JButton("✅ Criar Conta");
+        createButton.addActionListener(this::handleSubmit);
+        add(createButton, gbc);
+
+        // Link Login
+        gbc.gridy++;
+        JButton loginButton = new JButton("Já tenho uma conta");
+        loginButton.setBorderPainted(false);
+        loginButton.setForeground(Color.BLUE);
+        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        loginButton.addActionListener(e -> switchToLogin());
+        add(loginButton, gbc);
     }
 
-    public void initialize() {
-        bindManagedToVisible(cAccNameError);
-        bindManagedToVisible(cAccEmailError);
-        bindManagedToVisible(cAccBirthError);
-        bindManagedToVisible(cAccCpfError);
-        bindManagedToVisible(cAccPasswordError);
-        bindManagedToVisible(cAccConfirmPasswordError);
-        cAccBirthField.setTextFormatter(new TextFormatter<>(birthDateFilter));
-        cAccCpfField.setTextFormatter(new TextFormatter<>(cpfFilter));
-    }
-
-    //logica para data de nascimento (listener)
-
-    UnaryOperator<TextFormatter.Change> birthDateFilter = change -> {
-        String currentTextInField = ((TextInputControl) change.getControl()).getText();
-        String proposedTextIfNoFormatting = change.getControlNewText();
-        String digitsOnly = proposedTextIfNoFormatting.replaceAll("[^\\d]", "");
-        if (digitsOnly.length() > 8) {
-            digitsOnly = digitsOnly.substring(0, 8); // Limita para 8 digitos (DDMMYYYY)
-        }
-        StringBuilder idealFormattedTextBuilder = new StringBuilder();
-        int len = digitsOnly.length();
-        if (len > 0) idealFormattedTextBuilder.append(digitsOnly.substring(0, Math.min(len, 2))); // DD
-        if (len >= 2) idealFormattedTextBuilder.append("/");                                       // DD/
-        if (len > 2) idealFormattedTextBuilder.append(digitsOnly.substring(2, Math.min(len, 4)));// MM
-        if (len >= 4) idealFormattedTextBuilder.append("/");                                       // DD/MM/
-        if (len > 4) idealFormattedTextBuilder.append(digitsOnly.substring(4, Math.min(len, 8)));// YYYY
-        String idealFormattedText = idealFormattedTextBuilder.toString();
-        String textToSet = idealFormattedText;
-        int newCaretPosition = idealFormattedText.length();
-
-        //logica para back-space pressionado
-
-        if (change.isDeleted()) {
-            if (idealFormattedText.endsWith("/") &&
-                    !proposedTextIfNoFormatting.endsWith("/") && // Certeza que o usuário não digitou o separador
-                    proposedTextIfNoFormatting.equals(idealFormattedText.substring(0, idealFormattedText.length() - 1))) {
-
-                textToSet = proposedTextIfNoFormatting;
-                newCaretPosition = textToSet.length();
-            } else {
-                newCaretPosition = Math.min(change.getRangeStart(), textToSet.length());
-            }
-        } else if (change.isAdded()) {
-            if (len == 2 && textToSet.endsWith("/")) newCaretPosition = 3;       // Depois de DD/
-            else if (len == 4 && textToSet.endsWith("/")) newCaretPosition = 6;  // Depois de DD/MM/
-            else if (len == 8 && textToSet.length() == 10) newCaretPosition = 10; // Termina em DD/MM/YYYY
-        }
-        change.setText(textToSet);
-        change.setRange(0, currentTextInField.length());
-        change.selectRange(newCaretPosition, newCaretPosition);
-        return change;
-    };
-
-    //logica para formatação do cpf (listener)
-
-    UnaryOperator<TextFormatter.Change> cpfFilter = change -> {
-        String currentTextInField = ((TextInputControl) change.getControl()).getText();
-        String proposedTextIfNoFormatting = change.getControlNewText(); // What TextField thinks text will be
-
-        // saida na depuração
-        System.out.println("--- CPF Filter ---");
-        System.out.println("isAdded: " + change.isAdded() + ", isDeleted: " + change.isDeleted() + ", isReplaced: " + change.isReplaced());
-        System.out.println("Range: " + change.getRangeStart() + "-" + change.getRangeEnd() + ", Text: '" + change.getText() + "'");
-        System.out.println("Caret Pos: " + change.getCaretPosition() + ", Anchor: " + change.getAnchor());
-        System.out.println("Current Field Text: '" + currentTextInField + "'");
-        System.out.println("Proposed Text If No Formatting: '" + proposedTextIfNoFormatting + "'");
-        // termina saida depuração
-
-        String digitsOnly = proposedTextIfNoFormatting.replaceAll("[^\\d]", "");
-
-        if (digitsOnly.length() > 11) {
-            digitsOnly = digitsOnly.substring(0, 11);
-        }
-
-        StringBuilder idealFormattedTextBuilder = new StringBuilder();
-        int len = digitsOnly.length();
-
-        // CPF no formato 999.999.999-99
-        if (len > 0) idealFormattedTextBuilder.append(digitsOnly.substring(0, Math.min(len, 3)));
-        if (len >= 3) {
-            idealFormattedTextBuilder.append(".");
-            if (len > 3) idealFormattedTextBuilder.append(digitsOnly.substring(3, Math.min(len, 6)));
-        }
-        if (len >= 6) {
-            idealFormattedTextBuilder.append(".");
-            if (len > 6) idealFormattedTextBuilder.append(digitsOnly.substring(6, Math.min(len, 9)));
-        }
-        if (len >= 9) {
-            idealFormattedTextBuilder.append("-");
-            if (len > 9) idealFormattedTextBuilder.append(digitsOnly.substring(9, Math.min(len, 11)));
-        }
-
-        String idealFormattedText = idealFormattedTextBuilder.toString();
-        String textToSet = idealFormattedText;
-        int newCaretPosition = idealFormattedText.length();
-
-        //logica para back-space pressionado
-
-        if (!change.isAdded() && !change.isDeleted() && !change.isReplaced() &&
-                change.getText().isEmpty() &&
-                currentTextInField.equals(proposedTextIfNoFormatting) &&
-                change.getRangeStart() == currentTextInField.length() &&
-                currentTextInField.length() > 0) {
-
-            char lastCharOfCurrentText = currentTextInField.charAt(currentTextInField.length() - 1);
-            int numDigitsInCurrentText = currentTextInField.replaceAll("[^\\d]","").length();
-            boolean wasTrailingSeparatorWeCareAbout = false;
-            if (lastCharOfCurrentText == '.' && (numDigitsInCurrentText == 3 || numDigitsInCurrentText == 6)) {
-                wasTrailingSeparatorWeCareAbout = true;
-            } else if (lastCharOfCurrentText == '-' && numDigitsInCurrentText == 9) {
-                wasTrailingSeparatorWeCareAbout = true;
-            }
-            if (wasTrailingSeparatorWeCareAbout) {
-                textToSet = currentTextInField.substring(0, currentTextInField.length() - 1);
-                newCaretPosition = textToSet.length();
-                System.out.println("  FORCED separator deletion. New textToSet: '" + textToSet + "'");
-            }
-        } else if (change.isDeleted()) {
-            newCaretPosition = Math.min(change.getRangeStart(), textToSet.length());
-            System.out.println("  Standard deletion (digit?). Caret at: " + newCaretPosition);
-        } else if (change.isAdded()) {
-            System.out.println("  Addition. Caret at: " + newCaretPosition);
-        }
-        change.setText(textToSet);
-        change.setRange(0, currentTextInField.length());
-        change.selectRange(newCaretPosition, newCaretPosition);
-
-        System.out.println("Final text set: '" + textToSet + "', caret: " + newCaretPosition);
-        System.out.println("--- CPF Filter End ---");
-        return change;
-    };
-
-    private void bindManagedToVisible(Label label) {
-        if (label != null) {
-            label.managedProperty().bind(label.visibleProperty());
-        }
-    }
-
-    public void handleEnterPressed(KeyEvent keyEvent) throws SQLException, IOException {
-        if (keyEvent.getCode().toString().equals("ENTER")) {
-            System.out.println("Enter key pressed");
-            validateAndProceed();
-        }
-    }
-
-    @FXML
-    private void submitForm(ActionEvent event) throws SQLException, IOException {
-        System.out.println("Submit button pressed");
-        validateAndProceed();
-    }
-
-    private void validateAndProceed() throws SQLException, IOException {
-        boolean allFieldsValid = true;
-
-        // Valida cada campo
-        allFieldsValid &= validateNameField(cAccNameField, cAccNameError);
-        allFieldsValid &= validateEmailField(cAccEmailField, cAccEmailError);
-        allFieldsValid &= validateBirthDateField(cAccBirthField, cAccBirthError);
-        allFieldsValid &= validateCpfField(cAccCpfField, cAccCpfError);
-        allFieldsValid &= validatePasswordField(cAccPasswordField, cAccPasswordError);
-        allFieldsValid &= validateConfirmPasswordField(cAccConfirmPasswordField, cAccConfirmPasswordError);
-
-        if (allFieldsValid) {
-            System.out.println("Formulário válido. Prosseguindo com a criação da conta...");
-            if (handleLogin() != null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/mainPage-view.fxml"));
-                Parent root = loader.load();
-
-                Global.setLoggedInUser(cAccCpfField.getText().trim());
-
-                Stage stage = (Stage) cAccCpfField.getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
-            else {
-                System.out.println("Erro ao criar usuário. Verifique os dados e tente novamente.");
-            };
-            clearAllFieldsAndErrors();
-        } else {
-            System.out.println("Formulário inválido. Por favor, corrija os erros.");
-        }
-    }
-
-    private boolean validateNameField(TextField field, Label errorLabel) {
-        if (validateNullField(field, cAccNameError, "Nome completo é obrigatório.")) {
-            String name = field.getText().trim();
-            if (name.length() < 3) {
-                showError(errorLabel, "O nome deve ter pelo menos 3 caracteres.");
-                return false;
-            } else if (!name.matches("[a-zA-Z\\s]+")) {
-                showError(errorLabel, "O nome deve conter apenas letras e espaços.");
-                return false;
-            } else {
-                hideError(errorLabel);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean validateEmailField(TextField field, Label errorLabel) throws SQLException {
-        if (validateNullField(field, cAccEmailError, "Email é obrigatório.")) {
-            String email = field.getText().trim();
-            System.out.println(cAccEmailField.getText());
-            if (!email.matches("^[\\w-\\.]+@[\\w-]+\\.[a-zA-Z]{2,}$")) {
-                showError(errorLabel, "Email inválido.");
-                return false;
-            }
-            Connection userDbConnection = new UserConnection().conectar();
-            UserDAOs userDAOs = new UserDAOs();
-            if (!(userDAOs.getUserByEmail(userDbConnection, field.getText().trim()) == null)) {
-                showError(errorLabel, "Email já cadastrado.");
-                return false;
-            }
-            else {
-                hideError(errorLabel);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean validateBirthDateField(TextField field, Label errorLabel) {
-        if (validateNullField(field, errorLabel, "Data de nascimento é obrigatória.")) { // Passa o label de erro correto
-            String birthDate = field.getText().trim();
-            if (!birthDate.matches("\\d{2}/\\d{2}/\\d{4}")) {
-                showError(errorLabel, "Data inválida. Use DD/MM/YYYY e certifique-se que a data é completa.");
-                return false;
-            } else {
-                hideError(errorLabel);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean validateCpfField(TextField field, Label errorLabel) throws SQLException {
-        if(validateNullField(field, errorLabel, "CPF é obrigatório.")) {
-            String cpf = field.getText().trim();
-            if (!cpf.matches("\\d{3}.\\d{3}.\\d{3}-\\d{2}")) { // CPF deve ter 11 digitos
-                showError(errorLabel, "CPF inválido.");
-                return false;
-            }
-            Connection userDbConnection = new UserConnection().conectar();
-            UserDAOs userDAOs = new UserDAOs();
-            if (!(userDAOs.getUserByCpf(userDbConnection, field.getText().trim()) == null)) {
-                showError(errorLabel, "CPF já cadastrado.");
-                return false;
-            }
-            else {
-                hideError(errorLabel);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean validatePasswordField(PasswordField field, Label errorLabel) {
-        if (validateNullField(field, cAccPasswordError, "Senha é obrigatória.")) {
-            String password = field.getText().trim();
-            if (password.length() < 8) {
-                showError(errorLabel, "A senha deve ter pelo menos 6 caracteres.");
-                return false;
-            } else {
-                hideError(errorLabel);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean validateConfirmPasswordField(PasswordField field, Label errorLabel) {
-        if (validateNullField(field, errorLabel, "Confirmação de senha é obrigatória.")) {
-            String confirmPassword = field.getText().trim();
-            if (confirmPassword.length() < 8) {
-                showError(errorLabel, "A confirmação de senha deve ter pelo menos 6 caracteres.");
-                return false;
-            }
-            else if (!cAccPasswordField.getText().trim().equals(confirmPassword)) {
-                showError(errorLabel, "As senhas não coincidem.");
-                return false;
-            }
-            else {
-                hideError(errorLabel);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean validateNullField(TextField field, Label errorLabel, String errorMessage) {
-        if (field.getText() == null || field.getText().trim().isEmpty()) {
-            showError(errorLabel, errorMessage);
-            return false;
-        } else {
-            hideError(errorLabel);
-            return true;
-        }
-    }
-
-    private boolean validateNullField(PasswordField field, Label errorLabel, String errorMessage) {
-        if (field.getText() == null || field.getText().trim().isEmpty()) {
-            showError(errorLabel, errorMessage);
-            return false;
-        } else {
-            hideError(errorLabel);
-            return true;
-        }
-    }
-
-    private void showError(Label errorLabel, String message) {
-        if (errorLabel != null) {
-            errorLabel.setText(message);
-            errorLabel.setVisible(true);
-        }
-    }
-
-    private void hideError(Label errorLabel) {
-        if (errorLabel != null) {
-            errorLabel.setText(""); // Limpa texto de erro
-            errorLabel.setVisible(false);
-        }
-    }
-
-    private void clearAllFieldsAndErrors() {
-        cAccNameField.clear();
-        cAccEmailField.clear();
-        cAccBirthField.clear();
-        cAccCpfField.clear();
-        cAccPasswordField.clear();
-        cAccConfirmPasswordField.clear();
-
-        hideError(cAccNameError);
-        hideError(cAccEmailError);
-        hideError(cAccBirthError);
-        hideError(cAccCpfError);
-        hideError(cAccPasswordError);
-        hideError(cAccConfirmPasswordError);
-    }
-
-    @SuppressWarnings("exports")
-    public User handleLogin() throws SQLException {
-        Connection userDbConnection = new UserConnection().conectar();
-        UserDAOs userDAOs = new UserDAOs();
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localBirthDate = LocalDate.parse(cAccBirthField.getCharacters(), inputFormatter);
-        String hashedPassword = PasswordHasher.hash(cAccPasswordField.getText().trim());
-        User NewUser = new User(
-            cAccNameField.getText().trim(),
-            cAccEmailField.getText().trim(),
-            cAccCpfField.getText().trim(),
-            hashedPassword,
-            0.0f, // Saldo inicial padrão
-            java.sql.Date.valueOf(localBirthDate)
-        );
-        System.out.println(NewUser.toString());
+    // === Lógica principal ===
+    private void handleSubmit(ActionEvent e) {
+        clearErrors();
+        boolean valid = validateFields();
+    
+        if (!valid) return;
+    
         try {
-            User createdUser = userDAOs.createUser(userDbConnection, NewUser);
-            if(createdUser != null) {
-                System.out.println("Usuário criado com sucesso: " + createdUser);
-                return createdUser; // Returna o usuário criado
+            User created = createUser();
+            if (created != null) {
+                JOptionPane.showMessageDialog(this, "Conta criada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Define o usuário logado globalmente
+                Global.setLoggedInUser(cpfField.getText().trim());
+    
+                // Abre a MainPage
+                java.awt.EventQueue.invokeLater(() -> {
+                    MainPageController mainPage = new MainPageController(); // sua JFrame da MainPage
+                    mainPage.setVisible(true);
+                });
+    
+                // Fecha a tela de cadastro atual
+                this.dispose();
+    
             } else {
-                System.out.println("Falha ao criar usuário.");
-                return null;
+                JOptionPane.showMessageDialog(this, "Erro ao criar conta. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException | IllegalArgumentException e) {
-            System.out.println("Erro ao criar usuário: " + e.getMessage());
-            return null;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
     }
 
-    public void handleLoginLinkAction(MouseEvent mouseEvent) throws SQLException, IOException {
-        if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED && mouseEvent.getButton() == MouseButton.PRIMARY) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/views/loginPage-view.fxml"));
-            Parent root = loader.load();
-            // coleta o stage atual
-            Stage stage = (Stage) cAccCpfField.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+    // === Validação de campos ===
+    private boolean validateFields() {
+        boolean ok = true;
+
+        if (nameField.getText().trim().isEmpty()) {
+            showError(nameError, "Nome é obrigatório.");
+            ok = false;
+        } else if (nameField.getText().trim().length() < 3) {
+            showError(nameError, "O nome deve ter pelo menos 3 letras.");
+            ok = false;
+        }
+
+        if (emailField.getText().trim().isEmpty()) {
+            showError(emailError, "Email é obrigatório.");
+            ok = false;
+        } else if (!emailField.getText().matches("^[\\w.-]+@[\\w-]+\\.[a-zA-Z]{2,}$")) {
+            showError(emailError, "Email inválido.");
+            ok = false;
+        }
+
+        if (!birthField.getText().matches("\\d{2}/\\d{2}/\\d{4}")) {
+            showError(birthError, "Data inválida. Use DD/MM/YYYY.");
+            ok = false;
+        }
+
+        if (!cpfField.getText().matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) {
+            showError(cpfError, "CPF inválido. Use 999.999.999-99.");
+            ok = false;
+        }
+
+        String pass = new String(passwordField.getPassword());
+        String confirm = new String(confirmPasswordField.getPassword());
+        if (pass.length() < 6) {
+            showError(passwordError, "Senha deve ter pelo menos 6 caracteres.");
+            ok = false;
+        }
+        if (!pass.equals(confirm)) {
+            showError(confirmError, "As senhas não coincidem.");
+            ok = false;
+        }
+
+        return ok;
+    }
+
+    private User createUser() throws SQLException {
+        Connection conn = new UserConnection().conectar();
+        UserDAOs dao = new UserDAOs();
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate birth = LocalDate.parse(birthField.getText().trim(), fmt);
+        String hashed = PasswordHasher.hash(new String(passwordField.getPassword()));
+
+        User user = new User(
+                nameField.getText().trim(),
+                emailField.getText().trim(),
+                cpfField.getText().trim(),
+                hashed,
+                0.0f,
+                java.sql.Date.valueOf(birth)
+        );
+
+        return dao.createUser(conn, user);
+    }
+
+    // === Navegação ===
+    private void switchToLogin() {
+        new LoginPageController();
+    }
+
+    // === Helpers ===
+    private JLabel errorLabel() {
+        JLabel label = new JLabel("");
+        label.setForeground(Color.RED);
+        return label;
+    }
+
+    private void showError(JLabel label, String msg) {
+        label.setText(msg);
+    }
+
+    private void clearErrors() {
+        for (JLabel l : new JLabel[]{nameError, emailError, birthError, cpfError, passwordError, confirmError}) {
+            l.setText("");
         }
     }
 }
